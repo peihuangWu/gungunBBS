@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>仙交BBS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../../static/css/common.css">
+    <script src="../../static/js/common.js"></script>
+    <script src="../../static/jQuery/jQuery.js"></script>
+    <script src="../../static/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../static/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <style>
+        .classification img {
+            width: 25px;
+            height: 25px;
+        }
+        .classification a {
+            color: black;
+            font-weight: bold;
+        }
+
+        .classification a:hover {
+            text-decoration: none;
+        }
+
+        .post a {
+            color:inherit;
+        }
+
+        .search{
+            width: 100%;
+            display: flex;
+            margin-top: 30px;
+        }
+
+        .search input{
+            width: 70%;
+            height: 30px;
+            outline: none;
+            border: 1px solid #00B2EE;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+
+        .search button{
+            height: 30px;
+            background-color: #00B2EE;
+            color: white;
+            border-style: none;
+            outline: none;
+        }
+
+        .search button i{
+            font-style: normal;
+        }
+
+        .search button:hover{
+            font-size: 16px;
+        }
+    </style>
+    <base target="_blank">
+</head>
+<body>
+    <header>
+        <div class="container-fluid bg-info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1 text-center">
+                        <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo">
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <h1 class="mt-4 ml-1">仙交BBS</h1>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="search">
+                            <input type="text" placeholder="请输入..." name="" id="searchText" value="" />
+                            <button id="searchBtn"><i>搜索</i></button>
+                        </div>
+                    </div>
+<!--                    <div class="col-md-1 text-center">-->
+<!--                        <div class="register mt-4">-->
+<!--                            <a href="">-->
+<!--                                <img src=".../../static/images/注册.png" alt="">-->
+<!--                                <span>注册</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="col-md-4 text-center">
+                        <div class="login mt-4">
+                            <a href="">
+                                <img src="../../static/images/登陆.png" alt="">
+                                <span>{{ username }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-1 text-center">
+                        <div class="logout mt-4">
+                            <a href="/logout/">
+                                <img src="../../static/images/退出.png" alt="">
+                                <span>退出</span>
+                            </a>
+                        </div>
+                    </div>
+<!--                    <div class="col-md-2 text-center">-->
+<!--                        <div class="info mt-4">-->
+<!--                            <a href="">-->
+<!--                                <img src=".../../static/images/个人资料.png" alt="">-->
+<!--                                <span>个人中心</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="classification col-md-2">
+                    <h2 class="font-weight-bold">看板</h2>
+                    <div class="mt-4">
+                        <img src="../../static/images/生活.png" alt="">
+                        <a href="/classification/live/" target="_self" class="font-weight-lighter">生活专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/学习计划.png" alt="">
+                        <a href="/classification/study/" target="_self" class="font-weight-lighter">学习专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/就业.png" alt="">
+                        <a href="/classification/job/" target="_self" class="font-weight-lighter">就业专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/闲聊社区.png" alt="">
+                        <a href="/classification/chat/" target="_self" class="font-weight-lighter">闲聊专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/新闻.png" alt="">
+                        <a href="/classification/news/" target="_self" class="font-weight-lighter">时事专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/运动.png" alt="">
+                        <a href="/classification/sport/" target="_self" class="font-weight-lighter">运动专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/游戏.png" alt="">
+                        <a href="/classification/game/" target="_self" class="font-weight-lighter">游戏专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/电影.png" alt="">
+                        <a href="/classification/movie/" target="_self" class="font-weight-lighter">电影专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/音乐.png" alt="">
+                        <a href="/classification/music/" target="_self" class="font-weight-lighter">音乐专区</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/旅游.png" alt="">
+                        <a href="/classification/tour/" target="_self" class="font-weight-lighter">旅游专区</a>
+                    </div>
+                </div>
+                <div class="content col-md-10">
+                    <div id="carouselExampleCaptions" class="carousel slide " data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="http://img4.imgtn.bdimg.com/it/u=3532249801,4016244769&fm=26&gp=0.jpg" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>First slide label</h5>
+                                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="http://img4.imgtn.bdimg.com/it/u=3532249801,4016244769&fm=26&gp=0.jpg" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Second slide label</h5>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="http://img4.imgtn.bdimg.com/it/u=3532249801,4016244769&fm=26&gp=0.jpg" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Third slide label</h5>
+                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="new">
+                        <h2 class="font-weight-bold">最新</h2>
+                        {% for post in posts %}
+                            <div class="post border-top">
+                                <a href="/post/{{ post.id }}/">
+                                    <p class="title mt-1">{{ post.title }}</p>
+                                </a>
+                                <div class="info1">
+                                    <a href="/classification/{{ post.type2 }}/" class="info-class mr-4">{{ post.type }}</a>
+                                    <a href="" class="info-user mr-4">{{ post.author.username }}</a>
+                                    <span class="info-time mr-4">{{ post.publish_time|date:'Y-m-d H:i' }}</span>
+                                </div>
+                                <div class="info2">
+                                    浏览:&nbsp;<span class="info-clickNum mr-4">{{ post.click_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    回复:&nbsp;<span class="info-replyNum">{{ post.reply_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <!--                                点赞:&nbsp;<span class="info-favNum">34</span>-->
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+    <script>
+        let logo = document.getElementsByClassName("logo");
+        let title = document.getElementsByTagName("h1");
+        let logoArr = Array.from(logo);
+        let titleArr = Array.from(title);
+
+        function fun1(e) {
+            window.location.href = '/index/';
+        }
+
+        function fun2(e) {
+            e.target.style.cursor = "pointer";
+        }
+
+        for (let i = 0; i < logoArr.length; i++) {
+            logoArr[i].addEventListener("click", fun1);
+            logoArr[i].addEventListener("mouseover", fun2);
+        }
+
+        for (let i = 0; i < titleArr.length; i++) {
+            titleArr[i].addEventListener("click", fun1);
+            titleArr[i].addEventListener("mouseover", fun2);
+        }
+
+        let searchBtn = document.getElementById("searchBtn");
+        let searchText = document.getElementById("searchText");
+        searchBtn.addEventListener("click", (e)=>{
+            window.location.href = "/search?searchText=" + searchText.value;
+        });
+    </script>
+</body>
+</html>

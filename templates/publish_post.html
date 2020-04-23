@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>仙交BBS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../../static/css/common.css">
+    <script src="../../static/js/common.js"></script>
+    <script src="../../static/jQuery/jQuery.js"></script>
+    <script src="../../static/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../static/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <style>
+        .search{
+            width: 100%;
+            display: flex;
+            margin-top: 30px;
+        }
+
+        .search input{
+            width: 70%;
+            height: 30px;
+            outline: none;
+            border: 1px solid #00B2EE;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+
+        .search button{
+            height: 30px;
+            background-color: #00B2EE;
+            color: white;
+            border-style: none;
+            outline: none;
+        }
+
+        .search button i{
+            font-style: normal;
+        }
+
+        .search button:hover{
+            font-size: 16px;
+        }
+    </style>
+    <base target="_blank">
+</head>
+<body>
+    <header>
+        <div class="container-fluid bg-info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1 text-center">
+                        <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo">
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <h1 class="mt-4 ml-1">仙交BBS</h1>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="search">
+                            <input type="text" placeholder="请输入.." name="" id="searchText" value="" />
+                            <button id="searchBtn"><i>搜索</i></button>
+                        </div>
+                    </div>
+<!--                    <div class="col-md-1 text-center">-->
+<!--                        <div class="register mt-4">-->
+<!--                            <a href="">-->
+<!--                                <img src="../../static/images/注册.png" alt="">-->
+<!--                                <span>注册</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="col-md-4 text-center">
+                        <div class="login mt-4">
+                            <a href="">
+                                <img src="../../static/images/登陆.png" alt="">
+                                <span>{{ username }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-1 text-center">
+                        <div class="logout mt-4">
+                            <a href="">
+                                <img src="../../static/images/退出.png" alt="">
+                                <span>退出</span>
+                            </a>
+                        </div>
+                    </div>
+<!--                    <div class="col-md-2 text-center">-->
+<!--                        <div class="info mt-4">-->
+<!--                            <a href="">-->
+<!--                                <img src="../../static/images/个人资料.png" alt="">-->
+<!--                                <span>个人中心</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="editDiv">
+            <form action="/publish/" method="post" target="_self" class="mt-3">
+                <div class="form-group">
+                    <input name="title" type="text" placeholder="请填写标题" class="form-control title" id="title"></input>
+                </div>
+                <div>
+                    <select name="classification" class="form-control">
+                        <option value="live">生活专区</option>
+                        <option value="study">学习专区</option>
+                        <option value="job">就业专区</option>
+                        <option value="chat">闲聊专区</option>
+                        <option value="news">时事专区</option>
+                        <option value="sport">运动专区</option>
+                        <option value="game">游戏专区</option>
+                        <option value="movie">电影专区</option>
+                        <option value="music">音乐专区</option>
+                        <option value="tour">旅游专区</option>
+                    </select>
+                </div>
+                <div class="form-group mt-3">
+                    <textarea name="content" placeholder="请填写内容" class="form-control content" id="content-textarea" rows="7"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-primary">发布</button>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+        </div>
+    </main>
+    <script>
+        let logo = document.getElementsByClassName("logo");
+        let title = document.getElementsByTagName("h1");
+        let logoArr = Array.from(logo);
+        let titleArr = Array.from(title);
+
+        function fun1(e) {
+            window.location.href = '/index/';
+        }
+
+        function fun2(e) {
+            e.target.style.cursor = "pointer";
+        }
+
+        for (let i = 0; i < logoArr.length; i++) {
+            logoArr[i].addEventListener("click", fun1);
+            logoArr[i].addEventListener("mouseover", fun2);
+        }
+
+        for (let i = 0; i < titleArr.length; i++) {
+            titleArr[i].addEventListener("click", fun1);
+            titleArr[i].addEventListener("mouseover", fun2);
+        }
+
+        searchBtn.addEventListener("click", (e)=>{
+            window.location.href = "/search?searchText=" + searchText.value;
+        });
+    </script>
+</body>
+</html>
