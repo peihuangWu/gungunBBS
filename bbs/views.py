@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.views.generic.base import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
@@ -160,10 +162,12 @@ class PublishView(View):
     def post(self, request):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
-        title = request.POST.get("title", "")
+        body = json.loads(request.body)
+        title = body.get("title", "")
+        type = body.get("classification", "")
+        content = json.dumps(body.get("content", ""))
         if title == "":
             title = "我发布了一条帖子，大家快来看看吧~"
-        type = request.POST.get("classification", "live")
         if type == "study":
             type = "学习专区"
         elif type == "job":
@@ -184,7 +188,6 @@ class PublishView(View):
             type = "旅游专区"
         else:
             type = "生活专区"
-        content = request.POST.get("content", "")
         post_info = Post()
         post_info.title = title
         post_info.type = type
@@ -243,7 +246,7 @@ class ReplyView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
         post_info = Post.objects.get(id=post_id)
-        content = request.POST.get("content", "")
+        content = json.dumps(json.loads(request.body)["content"])
         if not post_info:
             return
         if not content:
