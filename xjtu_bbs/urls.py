@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from bbs.views import *
+from usersystem.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -31,4 +32,12 @@ urlpatterns = [
     url(r"^reply/(?P<post_id>\d+)/$", ReplyView.as_view(), name="reply"),
     url(r"^search/$", SearchView.as_view(), name="search"),
     url(r"^delete/(?P<id>\d+)/$", DeleteView.as_view(), name="delete"),
+    url(r"^personal_info/$", PersonalInfoView.as_view(), name="personal_info"),
+    url(r"^personal_portrait/$", PersonalPortraitView.as_view(), name="personal_portrait"),
+    url(r"^personal_dynamic/$", PersonalDynamicView.as_view(), name="personal_dynamic"),
+    url(r"^personal_follow/$", PersonalFollowView.as_view(), name="personal_follow"),
+    url(r"^personal_fans/$", PersonalFansView.as_view(), name="personal_fans"),
+    url(r"^personal_privacy/$", PersonalPrivacyView.as_view(), name="personal_privacy"),
+    url(r"^personal_password/$", PersonalPasswordView.as_view(), name="personal_password"),
+    url(r"^personal_page_by_other/(?P<id>\d+)/$", PersonalPageByOtherView.as_view(), name="personal_page_by_other"),
 ]

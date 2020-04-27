@@ -41,6 +41,10 @@
         .search button:hover{
             font-size: 16px;
         }
+
+        .login img {
+            border-radius: 50%;
+        }
     </style>
     <base target="_blank">
 </head>
@@ -71,9 +75,9 @@
 <!--                    </div>-->
                     <div class="col-md-4 text-center">
                         <div class="login mt-4">
-                            <a href="">
-                                <img src="../../static/images/登陆.png" alt="">
-                                <span>{{ username }}</span>
+                            <a href="/personal_info/">
+                                <img src="{{ user.portrait }}" alt="">
+                                <span>{{ user.username }}</span>
                             </a>
                         </div>
                     </div>

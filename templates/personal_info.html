@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>仙交BBS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../../static/css/common.css">
+    <script src="../../static/jQuery/jQuery.js"></script>
+    <script src="../../static/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../static/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <style>
+        .option img {
+            width: 25px;
+            height: 25px;
+        }
+        .option a {
+            color: black;
+            font-weight: bold;
+        }
+
+        .option a:hover {
+            text-decoration: none;
+        }
+
+        .post a {
+            color:inherit;
+        }
+
+        .active {
+            background: #c6c8ca;
+        }
+
+        .info button {
+            width: 100px;
+            height: 40px;
+        }
+
+        .info img {
+            width: 25px;
+            height:25px;
+        }
+
+                .search{
+            width: 100%;
+            display: flex;
+            margin-top: 30px;
+        }
+
+        .search input{
+            width: 70%;
+            height: 30px;
+            outline: none;
+            border: 1px solid #00B2EE;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+
+        .search button{
+            height: 30px;
+            background-color: #00B2EE;
+            color: white;
+            border-style: none;
+            outline: none;
+        }
+
+        .search button i{
+            font-style: normal;
+        }
+
+        .search button:hover{
+            font-size: 16px;
+        }
+
+        .login img {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container-fluid bg-info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1 text-center">
+                        <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo" id="logo">
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <h1 class="mt-4 ml-1">仙交BBS</h1>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="search">
+                            <input type="text" placeholder="请输入..." name="" id="searchText" value="" />
+                            <button id="searchBtn"><i>搜索</i></button>
+                        </div>
+                    </div>
+                    <!--                    <div class="col-md-1 text-center">-->
+                    <!--                        <div class="register mt-4">-->
+                    <!--                            <a href="">-->
+                    <!--                                <img src="../../static/static/images/注册.png" alt="">-->
+                    <!--                                <span>注册</span>-->
+                    <!--                            </a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <div class="col-md-4 text-center">
+                        <div class="login mt-4">
+                            <a href="/personal_info/">
+                                <img src="{{ user.portrait }}" alt="">
+                                <span>{{ user.username }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-1 text-center">
+                        <div class="logout mt-4">
+                            <a href="/logout/">
+                                <img src="../../static/images/退出.png" alt="">
+                                <span>退出</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!--                    <div class="col-md-2 text-center">-->
+                    <!--                        <div class="info mt-4">-->
+                    <!--                            <a href="">-->
+                    <!--                                <img src="../../static/static/images/个人资料.png" alt="">-->
+                    <!--                                <span>个人中心</span>-->
+                    <!--                            </a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="option col-md-2">
+                    <h2 class="font-weight-bold">个人中心</h2>
+                    <div class="mt-4 active">
+                        <img src="../../static/images/我的资料.png" alt="">
+                        <a href="/personal_info/" class="font-weight-lighter">我的资料</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/我的头像.png" alt="">
+                        <a href="/personal_portrait/" class="font-weight-lighter">修改头像</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/我的动态.png" alt="">
+                        <a href="/personal_dynamic/" class="font-weight-lighter">我的动态</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/我的关注.png" alt="">
+                        <a href="/personal_follow/" class="font-weight-lighter">我的关注</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/我的粉丝.png" alt="">
+                        <a href="/personal_fans/" class="font-weight-lighter">我的粉丝</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/隐私设置.png" alt="">
+                        <a href="/personal_privacy/" class="font-weight-lighter">隐私设置</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="../../static/images/修改密码.png" alt="">
+                        <a href="/personal_password/" class="font-weight-lighter">修改密码</a>
+                    </div>
+                </div>
+                <div class="content col-md-10">
+                    <div class="info">
+                        <h3 class="font-weight-bold ml-5">我的资料</h3>
+                        <div class="username mt-4 ml-5">
+                            <img src="../../static/images/用户名.png" alt="">
+                            <span class="mr-3">用户名:</span>
+                            <span>{{ user.username }}</span>
+                        </div>
+                        <form action="/personal_info/" method="post">
+                            <div class="gender mt-4 ml-5">
+                                <img src="../../static/images/性别.png" alt="">
+                                <span class="mr-3">性别:</span>
+                                <input type="radio" name="gender" id="male" value="male"></input>
+                                <label for="male">男</label>
+                                <input type="radio" name="gender" id="female" value="female" class="ml-3"></input>
+                                <label for="female">女</label>
+                            </div>
+                            <div class="college mt-4 ml-5">
+                                <img src="../../static/images/所在学院.png" alt="">
+                                <span class="mr-3">所在学院:</span>
+                                <select name="college">
+                                    <option value=0>电气工程学院</option>
+                                    <option value=1>机械工程学院</option>
+                                    <option value=2>理学院</option>
+                                    <option value=3>能源与动力工程学院</option>
+                                    <option value=4>电子与信息工程学院</option>
+                                    <option value=5>法学院</option>
+                                    <option value=6>航天航空学院</option>
+                                    <option value=7>材料科学与工程学院</option>
+                                    <option value=8>软件学院</option>
+                                    <option value=9>人居环境与建筑工程学院</option>
+                                    <option value=10>生命科学与技术学院</option>
+                                    <option value=11>医学部</option>
+                                    <option value=12>经济与金融学院</option>
+                                    <option value=13>公共政策与管理学院</option>
+                                    <option value=14>管理学院</option>
+                                    <option value=15>人文社会科学学院</option>
+                                    <option value=16>软件学院</option>
+                                    <option value=17>金禾经济研究中心</option>
+                                    <option value=18>外国语学院</option>
+                                    <option value=19>前沿科学技术研究院</option>
+                                    <option value=20>数学与统计学院</option>
+                                    <option value=21>化学工程与技术学院</option>
+                                    <option value=22>体育中心</option>
+                                    <option value=23>马克思主义学院</option>
+                                    <option value=24>可持续发展学院</option>
+                                    <option value=25>国际教育学院</option>
+                                    <option value=26>继续教育学院</option>
+                                    <option value=27>网络教育学院</option>
+                                </select>
+                            </div>
+                            <div class="birthday mt-4 ml-5">
+                                <img src="../../static/images/出生年月.png" alt="">
+                                <span class="mr-3">出生年月:</span>
+                                <select name="year">
+
+                                </select>&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;
+                                <select name="month">
+
+                                </select>&nbsp;&nbsp;月
+                            </div>
+                            <div class="emotion mt-4 ml-5">
+                                <img src="../../static/images/情感状态.png" alt="">
+                                <span class="mr-3">情感状态:</span>
+                                <select name="emotion">
+                                    {% if user.emotion == "单身" %}
+                                        <option selected value="single">单身</option>
+                                    {% else %}
+                                        <option value="single">单身</option>
+                                    {% endif %}
+                                    {% if user.emotion == "交往中" %}
+                                        <option selected value="in_object">交往中</option>
+                                    {% else %}
+                                        <option value="in_object">交往中</option>
+                                    {% endif %}
+                                    {% if user.emotion == "已婚" %}
+                                        <option selected value="married">已婚</option>
+                                    {% else %}
+                                        <option value="married">已婚</option>
+                                    {% endif %}
+                                    {% if user.emotion == "丧偶" %}
+                                        <option selected value="widow">丧偶</option>
+                                    {% else %}
+                                        <option value="widow">丧偶</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="signature mt-4 ml-5">
+                                <img src="../../static/images/个性签名.png" alt="">
+                                <span class="mr-3">个性签名:</span>
+                                <textarea name="sign" cols="30" rows="10" class="d-block mt-1">{{ user.sign }}</textarea>
+                            </div>
+                            <button type="submit" class="d-block btn-info ml-auto mr-auto">保存</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let logo = document.getElementsByClassName("logo");
+        let title = document.getElementsByTagName("h1");
+        let logoArr = Array.from(logo);
+        let titleArr = Array.from(title);
+
+        function fun1(e) {
+            window.location.href = '/index/';
+        }
+
+        function fun2(e) {
+            e.target.style.cursor = "pointer";
+        }
+
+        for (let i = 0; i < logoArr.length; i++) {
+            logoArr[i].addEventListener("click", fun1);
+            logoArr[i].addEventListener("mouseover", fun2);
+        }
+
+        for (let i = 0; i < titleArr.length; i++) {
+            titleArr[i].addEventListener("click", fun1);
+            titleArr[i].addEventListener("mouseover", fun2);
+        }
+
+        let searchBtn = document.getElementById("searchBtn");
+        let searchText = document.getElementById("searchText");
+        searchBtn.addEventListener("click", (e)=>{
+            window.location.href = "/search?searchText=" + searchText.value;
+        });
+
+        {% if user.gender == "男" %}
+            $("#male").attr("checked","checked");
+        {% else %}
+            $("#female").attr("checked","checked");
+        {% endif %}
+
+        let colleges = document.querySelectorAll(".college option");
+        colleges[{{ user.college }}].setAttribute("checked", "checked");
+
+        let years = document.querySelector("select[name=year]");
+        for (let i = 1900; i <= 2020; i++) {
+            let node = document.createElement("option");
+            node.setAttribute("value", i);
+            {% if i == user.birth_year %}
+                node.setAttribute("checked", "checked");
+            {% endif %}
+        }
+
+        for (let i = 1; i <= 12; i++) {
+            let node = document.createElement("option");
+            node.setAttribute("value", i);
+            {% if i == user.birth_month %}
+                node.setAttribute("checked", "checked");
+            {% endif %}
+        }
+    </script>
+</body>
+</html>

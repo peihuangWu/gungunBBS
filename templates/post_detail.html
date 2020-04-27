@@ -5,10 +5,10 @@
     <title>仙交BBS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="../../static/css/common.css">
+    <script src="../../static/js/wangEditor.js"></script>
     <script src="../../static/js/common.js"></script>
     <script src="../../static/jQuery/jQuery.js"></script>
     <script src="../../static/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
-    <script src="../../static/js/wangEditor.js"></script>
     <link rel="stylesheet" href="../../static/bootstrap-4.4.1-dist/css/bootstrap.css">
     <style>
         .reply {
@@ -60,8 +60,18 @@
             right:50px
         }
 
-        img {
+        .reply-content img, .post-content img {
             display:block;
+        }
+
+        .portrait {
+            width:100px;
+            height:100px;
+            border-radius: 50%;
+        }
+
+        .login img {
+            border-radius: 50%;
         }
     </style>
     <base target="_blank">
@@ -72,30 +82,30 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-1 text-center">
-                        <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo">
+                        <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo" id="logo">
                     </div>
                     <div class="col-md-2 text-center">
                         <h1 class="mt-4 ml-1">仙交BBS</h1>
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="search">
-                            <input type="text" placeholder="请输入.." name="" id="searchText" value="" />
+                            <input type="text" placeholder="请输入..." name="" id="searchText" value="" />
                             <button id="searchBtn"><i>搜索</i></button>
                         </div>
                     </div>
-<!--                    <div class="col-md-1 text-center">-->
-<!--                        <div class="register mt-4">-->
-<!--                            <a href="">-->
-<!--                                <img src="../../static/images/注册.png" alt="">-->
-<!--                                <span>注册</span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="col-md-1 text-center">-->
+                    <!--                        <div class="register mt-4">-->
+                    <!--                            <a href="">-->
+                    <!--                                <img src="../images/注册.png" alt="">-->
+                    <!--                                <span>注册</span>-->
+                    <!--                            </a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div class="col-md-4 text-center">
                         <div class="login mt-4">
-                            <a href="">
-                                <img src="../../static/images/登陆.png" alt="">
-                                <span>{{ username }}</span>
+                            <a href="/personal_info/">
+                                <img src="{{ user.portrait }}" alt="">
+                                <span>{{ user.username }}</span>
                             </a>
                         </div>
                     </div>
@@ -107,14 +117,14 @@
                             </a>
                         </div>
                     </div>
-<!--                    <div class="col-md-2 text-center">-->
-<!--                        <div class="info mt-4">-->
-<!--                            <a href="">-->
-<!--                                <img src="../../static/images/个人资料.png" alt="">-->
-<!--                                <span>个人中心</span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="col-md-2 text-center">-->
+                    <!--                        <div class="info mt-4">-->
+                    <!--                            <a href="">-->
+                    <!--                                <img src="../images/个人资料.png" alt="">-->
+                    <!--                                <span>个人中心</span>-->
+                    <!--                            </a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -145,33 +155,35 @@
                 </nav>
             </div>
             {% if page == 1 %}
-                <div class="row border-bottom">
-                <div class="col-2 mt-5">
-                    <p>{{ post_info.author.username }}</p>
-                    <p>1楼</p>
-                </div>
-                <div class="col-10">
-                    <h1>{{ post_info.title }}</h1>
-                    <div class="post-info position-relative">
-                        <span>{{ post_info.publish_time|date:'Y-m-d H:i' }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        浏览&nbsp;<span>{{ post_info.click_num }}</span>&nbsp;&nbsp;
-                        回复&nbsp;<span>{{ post_info.reply_num }}</span>&nbsp;&nbsp;
-                        {% if post_info.author.username == username %}
-                            <a href="/delete/{{ post_info.id }}/" target="_self" class="position-absolute delete">删除</a>
-                        {% endif %}
+                <div class="row border-bottom post">
+                    <div class="col-2 mt-3">
+                        <img class="portrait" src="{{ user.portrait }}" alt="">
+                        <p class="mt-3">{{ post_info.author.username }}</p>
+                        <p class="">1楼</p>
                     </div>
-                    {% autoescape off %}
-                    <div class="post-content mt-3">
+                    <div class="col-10">
+                        <h1>{{ post_info.title }}</h1>
+                        <div class="post-info position-relative">
+                            <span>{{ post_info.publish_time|date:'Y-m-d H:i' }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            浏览&nbsp;<span>{{ post_info.click_num }}</span>&nbsp;&nbsp;
+                            回复&nbsp;<span>{{ post_info.reply_num }}</span>&nbsp;&nbsp;
+                            {% if post_info.author.username == user.username %}
+                                <a href="/delete/{{ post_info.id }}/" target="_self" class="position-absolute delete">删除</a>
+                            {% endif %}
+                        </div>
+                        {% autoescape off %}
+                        <div class="post-content mt-3">
+                        </div>
+                        {% endautoescape %}
                     </div>
-                    {% endautoescape %}
                 </div>
-            </div>
             {% endif %}
             {% for reply in replys %}
                 <div class="row border-bottom reply ">
-                    <div class="col-2 mt-5">
-                        <p>{{ reply.author.username }}</p>
-                        <p>{{ reply.num }}楼</p>
+                    <div class="col-2 mt-3">
+                        <img class="portrait" src="{{ reply.author.portrait }}" alt="">
+                        <p class="mt-3">{{ reply.author.username }}</p>
+                        <p class="">{{ reply.num }}楼</p>
                     </div>
                     <div class="col-10 ">
                         {% autoescape off %}
