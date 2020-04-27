@@ -2,26 +2,17 @@ import json
 
 from django.shortcuts import render
 from django.views.generic.base import View
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from pure_pagination import Paginator, PageNotAnInteger
+from django.contrib.auth import authenticate
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.hashers import make_password
-from django.db.models import Q
 
 from .models import *
 
 
 # Create your views here.
 class PersonalInfoView(View):
-    # def __new__(cls, *args, **kwargs):
-    #     cls.colleges = ["电气工程学院", "机械工程学院", "理学院", "能源与动力工程学院", "电子与信息工程学院",
-    #                     "法学院", "航天航空学院", "材料科学与工程学院", "软件学院", "人居环境与建筑工程学院",
-    #                     "生命科学与技术学院", "医学部", "经济与金融学院", "公共政策与管理学院", "管理学院",
-    #                     "人文社会科学学院", "软件学院", "金禾经济研究中心", "外国语学院", "前沿科学技术研究院",
-    #                     "数学与统计学院", "化学工程与技术学院", "体育中心", "马克思主义学院", "可持续发展学院",
-    #                     "国际教育学院", "继续教育学院", "网络教育学院"]
-
     def get(self, request):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
@@ -149,6 +140,14 @@ class PersonalDynamicView(View):
                 "page_num": page_num,
                 "user": request.user,
             })
+        else:
+            return render(request, 'personal_dynamic.html', {
+                "publish_posts": posts,
+                "type": type,
+                "page": page,
+                "page_num": page_num,
+                "user": request.user,
+            })
 
 
 class PersonalFollowView(View):
@@ -263,14 +262,6 @@ class PersonalPrivacyView(View):
 
 
 class PersonalPageByOtherView(View):
-    def __new__(cls, *args, **kwargs):
-        cls.colleges = ["电气工程学院", "机械工程学院", "理学院", "能源与动力工程学院", "电子与信息工程学院",
-                        "法学院", "航天航空学院", "材料科学与工程学院", "软件学院", "人居环境与建筑工程学院",
-                        "生命科学与技术学院", "医学部", "经济与金融学院", "公共政策与管理学院", "管理学院",
-                        "人文社会科学学院", "软件学院", "金禾经济研究中心", "外国语学院", "前沿科学技术研究院",
-                        "数学与统计学院", "化学工程与技术学院", "体育中心", "马克思主义学院", "可持续发展学院",
-                        "国际教育学院", "继续教育学院", "网络教育学院"]
-
     def get(self, request, id):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
@@ -285,7 +276,14 @@ class PersonalPageByOtherView(View):
         except:
             return HttpResponseRedirect("index")
 
-        person.collegeName = self.__class__.colleges[person.college]
+        colleges = ["电气工程学院", "机械工程学院", "理学院", "能源与动力工程学院", "电子与信息工程学院",
+                        "法学院", "航天航空学院", "材料科学与工程学院", "软件学院", "人居环境与建筑工程学院",
+                        "生命科学与技术学院", "医学部", "经济与金融学院", "公共政策与管理学院", "管理学院",
+                        "人文社会科学学院", "软件学院", "金禾经济研究中心", "外国语学院", "前沿科学技术研究院",
+                        "数学与统计学院", "化学工程与技术学院", "体育中心", "马克思主义学院", "可持续发展学院",
+                        "国际教育学院", "继续教育学院", "网络教育学院"]
+
+        person.collegeName = colleges[person.college]
         isFans = UserFollow.objects.filter(user=request.user, follower=person).count() > 0
 
         if type == 1:
@@ -318,6 +316,7 @@ class PersonalPageByOtherView(View):
                 "replyed_posts": replyed_posts,
                 "page": page,
                 "page_num": page_num,
+                "type": type,
             })
 
         elif type == 2:
@@ -346,6 +345,7 @@ class PersonalPageByOtherView(View):
                 "publish_posts": publish_posts,
                 "page": page,
                 "page_num": page_num,
+                "type": type,
             })
         elif type == 3:
             person.privacy = person.follow_authority
@@ -378,6 +378,7 @@ class PersonalPageByOtherView(View):
                 "page": page,
                 "page_num": page_num,
                 "num": followers_count,
+                "type": type,
             })
 
         else:
@@ -411,6 +412,7 @@ class PersonalPageByOtherView(View):
                 "page": page,
                 "page_num": page_num,
                 "num": fans_count,
+                "type": type,
             })
 
 
@@ -444,3 +446,33 @@ class PersonalPasswordView(View):
             return HttpResponseRedirect(reverse("personal_password"))
         else:
             return HttpResponseRedirect(reverse("personal_password"))
+
+
+class FollowView(View):
+    def post(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+
+        data = json.loads(request.body)
+        type = data["type"]
+        follower_id = data["followerId"]
+        try:
+            follower = User.objects.get(id=follower_id)
+        except Exception:
+            return JsonResponse({'status': 2, 'msg': 'error'})
+
+        if type == 1:
+            if UserFollow.objects.filter(user=request.user, follower=follower):
+                return JsonResponse({'status': 2, 'msg': 'error'})
+            user_follow = UserFollow()
+            user_follow.user = request.user
+            user_follow.follower = follower
+            user_follow.save()
+            return JsonResponse({'status': 1, 'msg': 'success'})
+        else:
+            try:
+                user_follow = UserFollow.objects.get(user=request.user, follower=follower)
+            except Exception:
+                return JsonResponse({'status': 2, 'msg': 'error'})
+            user_follow.delete()
+            return JsonResponse({'status': 1, 'msg': 'success'})

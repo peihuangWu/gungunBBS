@@ -83,7 +83,7 @@
             font-size: 16px;
         }
 
-        .login img {
+        .login img, .portrait img {
             border-radius: 50%;
         }
     </style>
@@ -178,35 +178,36 @@
                         <span>个性签名:</span>&nbsp;&nbsp;
                         <span>{{ person.sign }}</span>
                     </div>
+                    <button id="followBtn" class="mt-4 btn-block btn-primary mt-5">关注TA</button>
                 </div>
                 <div class="content col-md-9">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
                             {% if type == 1 %}
-                                <a class="nav-link active" href="/personal_page_by_other?type=1">TA回复过的帖子</a>
+                                <a class="nav-link active" href="/personal_page_by_other/{{ person.id }}?type=1">TA回复过的帖子</a>
                             {% else %}
-                                <a class="nav-link" href="/personal_page_by_other?type=1">TA回复过的帖子</a>
+                                <a class="nav-link" href="/personal_page_by_other/{{ person.id }}?type=1">TA回复过的帖子</a>
                             {% endif %}
                         </li>
                         <li class="nav-item">
                             {% if type == 2 %}
-                                <a class="nav-link active" href="/personal_page_by_other?type=1">TA发表的帖子</a>
+                                <a class="nav-link active" href="/personal_page_by_other/{{ person.id }}?type=2">TA发表的帖子</a>
                             {% else %}
-                                <a class="nav-link" href="/personal_page_by_other?type=1">TA发表的帖子</a>
+                                <a class="nav-link" href="/personal_page_by_other/{{ person.id }}?type=2">TA发表的帖子</a>
                             {% endif %}
                         </li>
                         <li class="nav-item">
                             {% if type == 3 %}
-                                <a class="nav-link active" href="/personal_page_by_other?type=2">TA的关注</a>
+                                <a class="nav-link active" href="/personal_page_by_other/{{ person.id }}?type=3">TA的关注</a>
                             {% else %}
-                                <a class="nav-link" href="/personal_page_by_other?type=2">TA的关注</a>
+                                <a class="nav-link" href="/personal_page_by_other/{{ person.id }}?type=3">TA的关注</a>
                             {% endif %}
                         </li>
                         <li class="nav-item">
                             {% if type == 4 %}
-                                <a class="nav-link active" href="#">TA的粉丝</a>
+                                <a class="nav-link active" href="/personal_page_by_other/{{ person.id }}?type=4">TA的粉丝</a>
                             {% else %}
-                                <a class="nav-link" href="#">TA的粉丝</a>
+                                <a class="nav-link" href="/personal_page_by_other/{{ person.id }}?type=4">TA的粉丝</a>
                             {% endif %}
                         </li>
                     </ul>
@@ -320,7 +321,6 @@
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% else %}
                                 <div class="info">
-                                    <h3 class="font-weight-bold ml-5">TA的关注</h3>
                                     <span class="num d-block ml-5 mt-3 mb-2">共 {{ num }} 人</span>
                                 </div>
                                 {% for follower in followers %}
@@ -367,7 +367,6 @@
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% else %}
                                 <div class="info">
-                                    <h3 class="font-weight-bold ml-5">TA的粉丝</h3>
                                     <span class="num d-block ml-5 mt-3 mb-2">共 {{ num }} 人</span>
                                 </div>
                                 {% for fans in fans_list %}
@@ -437,6 +436,36 @@
         searchBtn.addEventListener("click", (e)=>{
             window.location.href = "/search?searchText=" + searchText.value;
         });
+
+        let followBtn = document.getElementById("followBtn");
+        followBtn.addEventListener("click", (e)=>{
+            let data = {};
+            if (followBtn.innerText == "关注TA")
+                data.type = 1;
+            else
+                data.type = 2;
+            data.followerId = {{ person.id }};
+            $.ajax({
+                url: "/follow/",
+                data: JSON.stringify(data),
+                type: "POST",
+                dataType: 'json',
+                success: function(re) {
+                    if(re.status == '1') {
+                        if (followBtn.innerText == "关注TA")
+                            followBtn.innerText = "已关注";
+                        else
+                            followBtn.innerText = "关注TA";
+                    }
+                }
+            });
+        });
+
+        {% if isFans %}
+            followBtn.innerText = "已关注"
+        {% else %}
+            followBtn.innerText = "关注TA"
+        {% endif %}
     </script>
 </body>
 </html>

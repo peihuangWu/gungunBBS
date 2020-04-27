@@ -2,11 +2,11 @@ import json
 
 from django.shortcuts import render
 from django.views.generic.base import View
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from pure_pagination import Paginator, PageNotAnInteger
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 
 from .models import *
@@ -108,21 +108,12 @@ class LoginView(View):
         if login_form.is_valid():
             username = request.POST.get("username", "")
             password = request.POST.get("password", "")
-            try:
-                user = User.objects.get(username=username)
-            except Exception:
-                return render(request, "login.html", {"msg": "用户名或密码错误！"})
-            if check_password(password, user.password):
+            user = authenticate(username=username, password=password)
+            if user is not None:
                 login(request, user)
-                return render(request, "index.html")
+                return HttpResponseRedirect(reverse("index"))
             else:
                 return render(request, "login.html", {"msg": "用户名或密码错误！"})
-            # user = authenticate(request, username=username, password=password)
-            # if user is not None:
-            #     login(request, user)
-            #     return HttpResponseRedirect(reverse("index"))
-            # else:
-            #     return render(request, "login.html", {"msg": "用户名或密码错误！"})
         else:
             return render(request, "login.html", {"msg": "请输入合法的用户名或密码"})
 
@@ -138,27 +129,25 @@ class LogoutView(View):
 
 class RegisterView(View):
     def get(self, request):
-        register_form = RegisterForm()
-        return render(request, "register.html", {'register_form': register_form})
+        return render(request, "register.html", {})
 
     def post(self, request):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
-            password1 = request.POST.get("password", "")
-            password2 = request.POST.get("password", "")
+            password1 = request.POST.get("password1", "")
+            password2 = request.POST.get("password2", "")
             if password1 != password2:
-                return render(request, "register.html", {"register_form": register_form, "msg": "两次输入的密码不匹配"})
+                return render(request, "register.html", {"msg": "两次输入的密码不匹配"})
             username = request.POST.get("username", "")
             if User.objects.filter(username=username):
-                return render(request, "register.html", {"register_form": register_form, "msg": "用户已经存在"})
-            # user = User()
-            # user.username = username
-            # user.password = make_password(password1)
-            # user.save()
-            User.objects.create_user(username=username, password=password1)
+                return render(request, "register.html", {"msg": "用户已经存在"})
+            user = User()
+            user.username = username
+            user.password = make_password(password1)
+            user.save()
             return HttpResponseRedirect(reverse("login"))
         else:
-            return render(request, "register.html", {"register_form": register_form})
+            return render(request, "register.html", {"msg": "请输入合法的用户名或密码"})
 
 
 class PublishView(View):

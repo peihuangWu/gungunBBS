@@ -54,6 +54,11 @@
                     {% csrf_token %}
                 </form>
             </div>
+            <script>
+                {% if msg %}
+                    alert("{{ msg }}")
+                {% endif %}
+            </script>
         </div>
     </div>
 </body>

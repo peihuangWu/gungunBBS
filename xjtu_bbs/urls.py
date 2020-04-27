@@ -40,4 +40,5 @@ urlpatterns = [
     url(r"^personal_privacy/$", PersonalPrivacyView.as_view(), name="personal_privacy"),
     url(r"^personal_password/$", PersonalPasswordView.as_view(), name="personal_password"),
     url(r"^personal_page_by_other/(?P<id>\d+)/$", PersonalPageByOtherView.as_view(), name="personal_page_by_other"),
+    url(r"^follow/$", FollowView.as_view(), name="follow")
 ]
