@@ -27,7 +27,7 @@ class User(AbstractUser):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=200, verbose_name="昵称", default="")
+    title = models.CharField(max_length=200, verbose_name="标题", default="")
     type = models.CharField(max_length=20, verbose_name="分区", default="live")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者", null=True, blank=True)
     publish_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
@@ -56,4 +56,19 @@ class Reply(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class Banner(models.Model):
+    banner_img = models.TextField(verbose_name="轮播图资源")
+    title = models.CharField(max_length=200, verbose_name="标题", default="")
+    content = models.TextField(verbose_name="内容", default="")
+    href = models.TextField(verbose_name="链接", default="/index/")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = "轮播图信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
 

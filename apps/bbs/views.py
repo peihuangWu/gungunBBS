@@ -18,6 +18,7 @@ class IndexView(View):
     def get(self, request):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
+        banners = Banner.objects.all().order_by("-add_time")[:3]
         posts = Post.objects.all().order_by("-publish_time")[:10]
         class_map = {
             "生活专区": "live",
@@ -35,6 +36,7 @@ class IndexView(View):
             post.type2 = class_map.get(post.type, "live")
         return render(request, 'index.html', {
             "user": request.user,
+            "banners": banners,
             "posts": posts,
         })
 
@@ -314,4 +316,8 @@ class DeleteView(View):
             return
         post_info.delete()
         return HttpResponseRedirect(reverse("index"))
+
+
+def page_not_found(request, exception):
+    return render(request, '404.html')
 

@@ -42,3 +42,7 @@ urlpatterns = [
     url(r"^personal_page_by_other/(?P<id>\d+)/$", PersonalPageByOtherView.as_view(), name="personal_page_by_other"),
     url(r"^follow/$", FollowView.as_view(), name="follow")
 ]
+
+
+handler404 = 'bbs.views.page_not_found'
+

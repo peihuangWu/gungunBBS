@@ -97,9 +97,9 @@ class PersonalDynamicView(View):
             post_ids = []
             for reply in replys:
                 post_ids.append(reply.post.id)
-            posts = Post.objects.filter(id__in=post_ids)
+            posts = Post.objects.filter(id__in=post_ids).order_by("-publish_time")
         else:
-            posts = Post.objects.filter(author=request.user)
+            posts = Post.objects.filter(author=request.user).order_by("-publish_time")
 
         class_map = {
             "生活专区": "live",
@@ -292,7 +292,7 @@ class PersonalPageByOtherView(View):
             post_ids = []
             for reply in replys:
                 post_ids.append(reply.post.id)
-            replyed_posts = Post.objects.filter(id__in=post_ids)
+            replyed_posts = Post.objects.filter(id__in=post_ids).order_by("-publish_time")
 
             replyed_posts_count = replyed_posts.count()
             try:
@@ -321,7 +321,7 @@ class PersonalPageByOtherView(View):
 
         elif type == 2:
             person.privacy = person.publish_authority
-            publish_posts = Post.objects.filter(author=person)
+            publish_posts = Post.objects.filter(author=person).order_by("-publish_time")
 
             publish_posts_count = publish_posts.count()
             try:
@@ -431,21 +431,21 @@ class PersonalPasswordView(View):
 
         password = request.POST.get("password", "")
         if password == "":
-            return HttpResponseRedirect(reverse("personal_password"))
+            return render(request, "personal_password.html", {"msg": "请输入原密码！"})
 
         user = authenticate(username=request.user.username, password=password)
         if user is not None:
             password1 = request.POST.get("password1", "")
             password2 = request.POST.get("password2", "")
             if password1 != password2:
-                return HttpResponseRedirect(reverse("personal_password"))
+                return render(request, "personal_password.html", {"msg": "两次新密码不匹配！"})
             if len(password1) < 5:
-                return HttpResponseRedirect(reverse("personal_password"))
+                return render(request, "personal_password.html", {"msg": "密码不能小于5位！"})
             user.password = make_password(password1)
             user.save()
             return HttpResponseRedirect(reverse("personal_password"))
         else:
-            return HttpResponseRedirect(reverse("personal_password"))
+            return render(request, "personal_password.html", {"msg": "原密码输入错误！"})
 
 
 class FollowView(View):

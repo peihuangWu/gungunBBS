@@ -300,24 +300,26 @@
         {% endif %}
 
         let colleges = document.querySelectorAll(".college option");
-        colleges[{{ user.college }}].setAttribute("checked", "checked");
+        colleges[{{ user.college }}].setAttribute("selected", true);
 
         let years = document.querySelector("select[name=year]");
         for (let i = 1900; i <= 2020; i++) {
             let node = document.createElement("option");
             node.setAttribute("value", i);
-            {% if i == user.birth_year %}
-                node.setAttribute("checked", "checked");
-            {% endif %}
+            node.innerText = i;
+            years.appendChild(node);
         }
+        document.querySelectorAll("select[name=year] option")[{{ user.birth_year|add:-1900 }}].setAttribute("selected", true);
 
+        let months = document.querySelector("select[name=month]");
         for (let i = 1; i <= 12; i++) {
             let node = document.createElement("option");
             node.setAttribute("value", i);
-            {% if i == user.birth_month %}
-                node.setAttribute("checked", "checked");
-            {% endif %}
+            node.innerText = i;
+            months.appendChild(node);
         }
+        document.querySelectorAll("select[name=month] option")[{{ user.birth_month|add:-1 }}].setAttribute("selected", true);
+
     </script>
 </body>
 </html>

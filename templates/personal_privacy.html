@@ -205,7 +205,7 @@
         </div>
     </div>
     <script>
-                let logo = document.getElementsByClassName("logo");
+        let logo = document.getElementsByClassName("logo");
         let title = document.getElementsByTagName("h1");
         let logoArr = Array.from(logo);
         let titleArr = Array.from(title);
@@ -235,35 +235,35 @@
         });
 
         {% if user.reply_authority == 1 %}
-            document.getElementById("reply-only-self").setAttribute("checked", "checked);
+            document.getElementById("reply-only-self").setAttribute("checked", "checked");
         {% elif user.reply_authority == 2 %}
-            document.getElementById("reply-only-fans").setAttribute("checked", "checked);
+            document.getElementById("reply-only-fans").setAttribute("checked", "checked");
         {% else %}
-            document.getElementById("reply-all").setAttribute("checked", "checked);
+            document.getElementById("reply-all").setAttribute("checked", "checked");
         {% endif %}
 
         {% if user.publish_authority == 1 %}
-            document.getElementById("publish-only-self").setAttribute("checked", "checked);
+            document.getElementById("publish-only-self").setAttribute("checked", "checked");
         {% elif user.publish_authority == 2 %}
-            document.getElementById("publish-only-fans").setAttribute("checked", "checked);
+            document.getElementById("publish-only-fans").setAttribute("checked", "checked");
         {% else %}
-            document.getElementById("publish-all").setAttribute("checked", "checked);
+            document.getElementById("publish-all").setAttribute("checked", "checked");
         {% endif %}
 
         {% if user.follow_authority == 1 %}
-            document.getElementById("follow-only-self").setAttribute("checked", "checked);
+            document.getElementById("follow-only-self").setAttribute("checked", "checked");
         {% elif user.follow_authority == 2 %}
-            document.getElementById("follow-only-fans").setAttribute("checked", "checked);
+            document.getElementById("follow-only-fans").setAttribute("checked", "checked");
         {% else %}
-            document.getElementById("follow-all").setAttribute("checked", "checked);
+            document.getElementById("follow-all").setAttribute("checked", "checked");
         {% endif %}
 
         {% if user.fans_authority == 1 %}
-            document.getElementById("fans-only-self").setAttribute("checked", "checked);
+            document.getElementById("fans-only-self").setAttribute("checked", "checked");
         {% elif user.fans_authority == 2 %}
-            document.getElementById("fans-only-fans").setAttribute("checked", "checked);
+            document.getElementById("fans-only-fans").setAttribute("checked", "checked");
         {% else %}
-            document.getElementById("fans-all").setAttribute("checked", "checked);
+            document.getElementById("fans-all").setAttribute("checked", "checked");
         {% endif %}
     </script>
 </main>
