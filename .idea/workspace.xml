@@ -3,18 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="46244d62-1748-4004-ad2c-898e63d271b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/area.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/area.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_dynamic.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_dynamic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_fans.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_fans.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_follow.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_follow.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_page_by_other.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_page_by_other.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_portrait.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_portrait.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personal_privacy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_privacy.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/post_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/publish_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/publish_post.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
