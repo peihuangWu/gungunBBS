@@ -3,48 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="46244d62-1748-4004-ad2c-898e63d271b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/logo.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/xjtu.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/个人资料.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/personal_info.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/个性签名.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/personal_sign.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/修改密码.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/change_password.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/出生年月.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/birthday.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/刷新.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/refresh.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/发布.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/发帖.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/publish_post.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/回复.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/学习计划.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/study.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/学院配置.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/就业.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/job.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/性别.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/gender.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/情感状态.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/emotion_status.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/我的关注.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/my_follows.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/我的动态.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/my_dynamic.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/我的头像.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/my_portrait.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/我的粉丝.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/my_fans.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/我的资料.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/my_info.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/所在学院.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/college.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/新闻.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/news.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/旅游.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/tour.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/注册.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/游戏.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/game.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/生日.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/生活.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/live.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/用户名.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/username.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/电子签名.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/电影.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/movie.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/登陆.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/运动.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/sport.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/退出.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/logout.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/闲聊社区.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/chat.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/隐私设置.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/privacy_setting.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/隐藏.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/hide.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/音乐.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/music.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/默认头像.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/404.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/area.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/area.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_dynamic.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_dynamic.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_fans.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_fans.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_follow.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_follow.html" afterDir="false" />
@@ -55,9 +15,6 @@
       <change beforePath="$PROJECT_DIR$/templates/personal_privacy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_privacy.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/post_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/publish_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/publish_post.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xjtu_bbs/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/xjtu_bbs/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xjtu_bbs/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/xjtu_bbs/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
