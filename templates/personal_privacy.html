@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
 <head>
     <meta charset="UTF-8">
     <title>仙交BBS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="../../static/css/common.css">
-    <script src="../../static/jQuery/jQuery.js"></script>
-    <script src="../../static/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
-    <link rel="stylesheet" href="../../static/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <script src="{% static 'jQuery/jQuery.js' %}"></script>
+    <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.css' %}">
     <style>
         .option img {
             width: 25px;
@@ -77,10 +78,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-1 text-center">
-                    <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo" id="logo">
+                    <img src="{% static 'images/logo.png' %}" alt="" class="rounded-circle logo" id="logo">
                 </div>
                 <div class="col-md-2 text-center">
-                    <h1 class="mt-4 ml-1">仙交BBS</h1>
+                    <h1 class="mt-4 ml-1">gungun</h1>
                 </div>
                 <div class="col-md-4 text-center">
                     <div class="search">
@@ -88,14 +89,6 @@
                         <button id="searchBtn"><i>搜索</i></button>
                     </div>
                 </div>
-                <!--                    <div class="col-md-1 text-center">-->
-                <!--                        <div class="register mt-4">-->
-                <!--                            <a href="">-->
-                <!--                                <img src="../../static/images/注册.png" alt="">-->
-                <!--                                <span>注册</span>-->
-                <!--                            </a>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
                 <div class="col-md-4 text-center">
                     <div class="login mt-4">
                         <a href="/personal_info/">
@@ -107,19 +100,11 @@
                 <div class="col-md-1 text-center">
                     <div class="logout mt-4">
                         <a href="/logout/">
-                            <img src="../../static/images/退出.png" alt="">
+                            <img src="{% static 'images/logout.png' %}" alt="">
                             <span>退出</span>
                         </a>
                     </div>
                 </div>
-                <!--                    <div class="col-md-2 text-center">-->
-                <!--                        <div class="info mt-4">-->
-                <!--                            <a href="">-->
-                <!--                                <img src="../../static/images/个人资料.png" alt="">-->
-                <!--                                <span>个人中心</span>-->
-                <!--                            </a>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
             </div>
         </div>
     </div>
@@ -129,34 +114,34 @@
         <div class="row">
             <div class="option col-md-2">
                 <h2 class="font-weight-bold">个人中心</h2>
-                <div class="mt-4">
-                    <img src="../../static/images/我的资料.png" alt="">
-                    <a href="/personal_info/" class="font-weight-lighter">我的资料</a>
-                </div>
-                <div class="mt-4">
-                    <img src="../../static/images/我的头像.png" alt="">
-                    <a href="/personal_portrait/" class="font-weight-lighter">修改头像</a>
-                </div>
-                <div class="mt-4">
-                    <img src="../../static/images/我的动态.png" alt="">
-                    <a href="/personal_dynamic/" class="font-weight-lighter">我的动态</a>
-                </div>
-                <div class="mt-4">
-                    <img src="../../static/images/我的关注.png" alt="">
-                    <a href="/personal_follow/" class="font-weight-lighter">我的关注</a>
-                </div>
-                <div class="mt-4">
-                    <img src="../../static/images/我的粉丝.png" alt="">
-                    <a href="/personal_fans/" class="font-weight-lighter">我的粉丝</a>
-                </div>
-                <div class="mt-4 active">
-                    <img src="../../static/images/隐私设置.png" alt="">
-                    <a href="/personal_privacy/" class="font-weight-lighter">隐私设置</a>
-                </div>
-                <div class="mt-4">
-                    <img src="../../static/images/修改密码.png" alt="">
-                    <a href="/personal_password/" class="font-weight-lighter">修改密码</a>
-                </div>
+                     <div class="mt-4">
+                        <img src="{% static 'images/my_info.png' %}" alt="">
+                        <a href="/personal_info/" class="font-weight-lighter">我的资料</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="{% static 'images/my_portrait.png' %}" alt="">
+                        <a href="/personal_portrait/" class="font-weight-lighter">修改头像</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="{% static 'images/my_dynamic.png' %}" alt="">
+                        <a href="/personal_dynamic/" class="font-weight-lighter">我的动态</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="{% static 'images/my_follows.png' %}" alt="">
+                        <a href="/personal_follow/" class="font-weight-lighter">我的关注</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="{% static 'images/my_fans.png' %}" alt="">
+                        <a href="/personal_fans/" class="font-weight-lighter">我的粉丝</a>
+                    </div>
+                    <div class="mt-4 active">
+                        <img src="{% static 'images/privacy_setting.png' %}" alt="">
+                        <a href="/personal_privacy/" class="font-weight-lighter">隐私设置</a>
+                    </div>
+                    <div class="mt-4">
+                        <img src="{% static 'images/change_password.png' %}" alt="">
+                        <a href="/personal_password/" class="font-weight-lighter">修改密码</a>
+                    </div>
             </div>
             <div class="content col-md-10">
                 <div class="info">

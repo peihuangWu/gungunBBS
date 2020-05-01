@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
 <head>
     <meta charset="UTF-8">
     <title>仙交BBS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="../../static/css/common.css">
-    <script src="../../static/js/common.js"></script>
-    <script src="../../static/jQuery/jQuery.js"></script>
-    <script src="../../static/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
-    <link rel="stylesheet" href="../../static/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="{% static 'jQuery/jQuery.js' %}"></script>
+    <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.css' %}">
     <style>
         .classification img {
             width: 25px;
@@ -84,10 +85,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-1 text-center">
-                        <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo">
+                        <img src="{% static 'images/logo.png' %}" alt="" class="rounded-circle logo">
                     </div>
                     <div class="col-md-2 text-center">
-                        <h1 class="mt-4 ml-1">仙交BBS</h1>
+                        <h1 class="mt-4 ml-1">gungun</h1>
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="search">
@@ -95,14 +96,6 @@
                             <button id="searchBtn"><i>搜索</i></button>
                         </div>
                     </div>
-<!--                    <div class="col-md-1 text-center">-->
-<!--                        <div class="register mt-4">-->
-<!--                            <a href="">-->
-<!--                                <img src="../../static/images/注册.png" alt="">-->
-<!--                                <span>注册</span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="col-md-4 text-center">
                         <div class="login mt-4">
                             <a href="/personal_info/">
@@ -114,19 +107,11 @@
                     <div class="col-md-1 text-center">
                         <div class="logout mt-4">
                             <a href="/logout/">
-                                <img src="../../static/images/退出.png" alt="">
+                                <img src="{% static 'images/logout.png' %}" alt="">
                                 <span>退出</span>
                             </a>
                         </div>
                     </div>
-<!--                    <div class="col-md-2 text-center">-->
-<!--                        <div class="info mt-4">-->
-<!--                            <a href="">-->
-<!--                                <img src="../../static/images/个人资料.png" alt="">-->
-<!--                                <span>个人中心</span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -138,130 +123,130 @@
                     <h2 class="font-weight-bold">看板</h2>
                     {% if type == "live" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/生活.png" alt="">
+                            <img src="{% static 'images/live.png' %}" alt="">
                             <a href="/classification/live/" target="_self" class="font-weight-lighter">生活专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/生活.png" alt="">
+                            <img src="{% static 'images/live.png' %}" alt="">
                             <a href="/classification/live/" target="_self" class="font-weight-lighter">生活专区</a>
                         </div>
                     {% endif %}
                     {% if type == "study" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/学习计划.png" alt="">
+                            <img src="{% static 'images/study.png' %}" alt="">
                             <a href="/classification/study/" target="_self" class="font-weight-lighter">学习专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/学习计划.png" alt="">
+                            <img src="{% static 'images/study.png' %}" alt="">
                             <a href="/classification/study/" target="_self" class="font-weight-lighter">学习专区</a>
                         </div>
                     {% endif %}
                     {% if type == "job" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/就业.png" alt="">
+                            <img src="{% static 'images/job.png' %}" alt="">
                             <a href="/classification/job/" target="_self" class="font-weight-lighter">就业专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/就业.png" alt="">
+                            <img src="{% static 'images/job.png' %}" alt="">
                             <a href="/classification/job/" target="_self" class="font-weight-lighter">就业专区</a>
                         </div>
                     {% endif %}
                     {% if type == "chat" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/闲聊社区.png" alt="">
+                            <img src="{% static 'images/chat.png' %}" alt="">
                             <a href="/classification/chat/" target="_self" class="font-weight-lighter">闲聊专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/闲聊社区.png" alt="">
+                            <img src="{% static 'images/chat.png' %}" alt="">
                             <a href="/classification/chat/" target="_self" class="font-weight-lighter">闲聊专区</a>
                         </div>
                     {% endif %}
                     {% if type == "news" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/新闻.png" alt="">
+                            <img src="{% static 'images/news.png' %}" alt="">
                             <a href="/classification/news/" target="_self" class="font-weight-lighter">时事专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/新闻.png" alt="">
+                            <img src="{% static 'images/news.png' %}" alt="">
                             <a href="/classification/news/" target="_self" class="font-weight-lighter">时事专区</a>
                         </div>
                     {% endif %}
                     {% if type == "sport" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/运动.png" alt="">
+                            <img src="{% static 'images/sport.png' %}" alt="">
                             <a href="/classification/sport/" target="_self" class="font-weight-lighter">运动专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/运动.png" alt="">
+                            <img src="{% static 'images/sport.png' %}" alt="">
                             <a href="/classification/sport/" target="_self" class="font-weight-lighter">运动专区</a>
                         </div>
                     {% endif %}
                     {% if type == "game" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/游戏.png" alt="">
+                            <img src="{% static 'images/game.png' %}" alt="">
                             <a href="/classification/game/" target="_self" class="font-weight-lighter">游戏专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/游戏.png" alt="">
+                            <img src="{% static 'images/game.png' %}" alt="">
                             <a href="/classification/game/" target="_self" class="font-weight-lighter">游戏专区</a>
                         </div>
                     {% endif %}
                     {% if type == "movie" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/电影.png" alt="">
+                            <img src="{% static 'images/movie.png' %}" alt="">
                             <a href="/classification/movie/" target="_self" class="font-weight-lighter">电影专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/电影.png" alt="">
+                            <img src="{% static 'images/movie.png' %}" alt="">
                             <a href="/classification/movie/" target="_self" class="font-weight-lighter">电影专区</a>
                         </div>
                     {% endif %}
                     {% if type == "music" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/音乐.png" alt="">
+                            <img src="{% static 'images/music.png' %}" alt="">
                             <a href="/classification/music/" target="_self" class="font-weight-lighter">音乐专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/音乐.png" alt="">
+                            <img src="{% static 'images/music.png' %}" alt="">
                             <a href="/classification/music/" target="_self" class="font-weight-lighter">音乐专区</a>
                         </div>
                     {% endif %}
                     {% if type == "tour" %}
                         <div class="mt-4 activeClassification">
-                            <img src="../../static/images/旅游.png" alt="">
+                            <img src="{% static 'images/tour.png' %}" alt="">
                             <a href="/classification/tour/" target="_self" class="font-weight-lighter">旅游专区</a>
                         </div>
                     {% else %}
                         <div class="mt-4">
-                            <img src="../../static/images/旅游.png" alt="">
+                            <img src="{% static 'images/tour.png' %}" alt="">
                             <a href="/classification/tour/" target="_self" class="font-weight-lighter">旅游专区</a>
                         </div>
                     {% endif %}
                     <div class="mt-5 operation">
                         <div class="publish mt-3">
                             <a href="/publish/" target="_self" >
-                                <img src="../../static/images/发帖.png" alt="">
+                                <img src="{% static 'images/publish_post.png' %}" alt="">
                                 <p class="ml-2">发帖</p>
                             </a>
                         </div>
                         <div class="refresh mt-5">
                             {% if type == "" %}
                                 <a href="/search?searchText={{ searchText }}" target="_self" >
-                                    <img src="../../static/images/刷新.png" alt="">
+                                    <img src="{% static 'images/refresh.png' %}" alt="">
                                     <p class="ml-2">刷新</p>
                                 </a>
                             {% else %}
                                 <a href="/classification/{{ type }}" target="_self" >
-                                    <img src="../../static/images/刷新.png" alt="">
+                                    <img src="{% static 'images/refresh.png' %}" alt="">
                                     <p class="ml-2">刷新</p>
                                 </a>
                             {% endif %}

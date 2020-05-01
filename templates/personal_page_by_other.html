@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
 <head>
     <meta charset="UTF-8">
     <title>仙交BBS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="../../static/css/common.css">
-    <script src="../../static/jQuery/jQuery.js"></script>
-    <script src="../../static/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
-    <link rel="stylesheet" href="../../static/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <script src="{% static 'jQuery/jQuery.js' %}"></script>
+    <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.css' %}">
     <style>
         .post a {
             color:inherit;
@@ -94,10 +95,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-1 text-center">
-                        <img src="../../static/images/logo.jpg" alt="" class="rounded-circle logo" id="logo">
+                        <img src="{% static 'images/logo.png' %}" alt="" class="rounded-circle logo" id="logo">
                     </div>
                     <div class="col-md-2 text-center">
-                        <h1 class="mt-4 ml-1">仙交BBS</h1>
+                        <h1 class="mt-4 ml-1">gungun</h1>
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="search">
@@ -105,14 +106,6 @@
                             <button id="searchBtn"><i>搜索</i></button>
                         </div>
                     </div>
-                    <!--                    <div class="col-md-1 text-center">-->
-                    <!--                        <div class="register mt-4">-->
-                    <!--                            <a href="">-->
-                    <!--                                <img src="../../static/images/注册.png" alt="">-->
-                    <!--                                <span>注册</span>-->
-                    <!--                            </a>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                     <div class="col-md-4 text-center">
                         <div class="login mt-4">
                             <a href="/personal_info/">
@@ -124,19 +117,11 @@
                     <div class="col-md-1 text-center">
                         <div class="logout mt-4">
                             <a href="/logout/">
-                                <img src="../../static/images/退出.png" alt="">
+                                <img src="{% static 'images/logout.png' %}" alt="">
                                 <span>退出</span>
                             </a>
                         </div>
                     </div>
-                    <!--                    <div class="col-md-2 text-center">-->
-                    <!--                        <div class="info mt-4">-->
-                    <!--                            <a href="">-->
-                    <!--                                <img src="../../static/images/个人资料.png" alt="">-->
-                    <!--                                <span>个人中心</span>-->
-                    <!--                            </a>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -149,32 +134,32 @@
                         <img src="{{ person.portrait }}" alt="">
                     </div>
                     <div class="username user-info mt-4">
-                        <img src="../../static/images/用户名.png" alt="">
+                        <img src="{% static 'images/username.png' %}" alt="">
                         <span>用户名:</span>&nbsp;&nbsp;
                         <span>{{ person.username }}</span>
                     </div>
                     <div class="gender user-info mt-4">
-                        <img src="../../static/images/性别.png" alt="">
+                        <img src="{% static 'images/gender.png' %}" alt="">
                         <span>性别:</span>&nbsp;&nbsp;
                         <span>{{ person.gender }}</span>
                     </div>
                     <div class="college user-info mt-4">
-                        <img src="../../static/images/所在学院.png" alt="">
+                        <img src="{% static 'images/college.png' %}" alt="">
                         <span>所在学院:</span>&nbsp;&nbsp;
                         <span>{{ person.collegeName }}</span>
                     </div>
                     <div class="birthday user-info mt-4">
-                        <img src="../../static/images/出生年月.png" alt="">
+                        <img src="{% static 'images/birthday.png' %}" alt="">
                         <span>出生年月:</span>&nbsp;&nbsp;
                         <span>{{ person.birth_year }}年{{ person.birth_month }}月</span>
                     </div>
                     <div class="emotion user-info mt-4">
-                        <img src="../../static/images/情感状态.png" alt="">
+                        <img src="{% static 'images/emotion_status.png' %}" alt="">
                         <span>情感状态:</span>&nbsp;&nbsp;
                         <span>{{ person.emotion }}</span>
                     </div>
                     <div class="sign user-info mt-4">
-                        <img src="../../static/images/个性签名.png" alt="">
+                        <img src="{% static 'images/personal_sign.pn' %}" alt="">
                         <span>个性签名:</span>&nbsp;&nbsp;
                         <span>{{ person.sign }}</span>
                     </div>
@@ -214,10 +199,10 @@
                     {% if type == 1 %}
                         <div class="list-replyedPost">
                             {% if person.privacy == 1 %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% elif person.privacy == 2 and not isFans %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% else %}
                                 {% for post in replyed_posts %}
@@ -264,10 +249,10 @@
                     {% if type == 2 %}
                         <div class="list-publish">
                             {% if person.privacy == 1 %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% elif person.privacy == 2 and not isFans %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% else %}
                                 {% for post in publish_posts %}
@@ -314,10 +299,10 @@
                     {% if type == 3 %}
                         <div class="list-follow">
                             {% if person.privacy == 1 %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% elif person.privacy == 2 and not isFans %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% else %}
                                 <div class="info">
@@ -360,10 +345,10 @@
                     {% if type == 4 %}
                         <div class="list-fans">
                             {% if person.privacy == 1 %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% elif person.privacy == 2 and not isFans %}
-                                <img class="ml-5" src="../../static/images/隐藏.png" alt="">
+                                <img class="ml-5" src="{% static 'images/hide.png' %}" alt="">
                                 <h2 class="ml-5">TA好像不想被人看到....</h2>
                             {% else %}
                                 <div class="info">
