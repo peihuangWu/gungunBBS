@@ -10,30 +10,37 @@
     <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
     <link rel="stylesheet" href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.css' %}">
     <style>
-        .option img {
-            width: 25px;
-            height: 25px;
-        }
-        .option a {
+        a {
             color: black;
-            font-weight: bold;
         }
 
-        .option a:hover {
+        a:hover {
+            color: black;
+        }
+
+        .fans {
+            height: 150px;
+            line-height: 150px;
+        }
+
+        .fans:hover {
+            background: #d6d8d9;
+        }
+
+        .fans a{
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: black;
+        }
+
+        .fans a:hover {
             text-decoration: none;
         }
 
-        .post a {
-            color:inherit;
-        }
-
-        .active {
-            background: #c6c8ca;
-        }
-
-        .info button {
-            width: 100px;
-            height: 40px;
+        .fans img {
+            width: 80px;
+            height: 80px;
         }
 
         .search{
@@ -128,59 +135,59 @@
             </div>
         </div>
     </header>
-    <main class="mt-4">
+    <main>
         <div class="container">
-            <div class="row">
-                <div class="option col-md-2">
-                    <h2 class="font-weight-bold">个人中心</h2>
-                     <div class="mt-4">
-                        <img src="{% static 'images/my_info.png' %}" alt="">
-                        <a href="/personal_info/" class="font-weight-lighter">我的资料</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/my_portrait.png' %}" alt="">
-                        <a href="/personal_portrait/" class="font-weight-lighter">修改头像</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/my_dynamic.png' %}" alt="">
-                        <a href="/personal_dynamic/" class="font-weight-lighter">我的动态</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/my_follows.png' %}" alt="">
-                        <a href="/personal_follow/" class="font-weight-lighter">我的关注</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/my_fans.png' %}" alt="">
-                        <a href="/personal_fans/" class="font-weight-lighter">我的粉丝</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/privacy_setting.png' %}" alt="">
-                        <a href="/personal_privacy/" class="font-weight-lighter">隐私设置</a>
-                    </div>
-                    <div class="mt-4 active">
-                        <img src="{% static 'images/change_password.png' %}" alt="">
-                        <a href="/personal_password/" class="font-weight-lighter">修改密码</a>
-                    </div>
-                </div>
+            <div class="row mt-3">
                 <div class="content col-md-10">
-                    <div class="info">
-                        <h3 class="font-weight-bold ml-5">修改密码</h3>
-                        <form action="/personal_password/" method="post">
-                            <div class="password mt-4 ml-5">
-                                <span class="mr-3">请输入原密码:</span>
-                                <input type="password" name="password"></input>
-                            </div>
-                            <div class="password1 mt-4 ml-5">
-                                <span class="mr-3">请输入原密码:</span>
-                                <input type="password" name="password1"></input>
-                            </div>
-                            <div class="password2 mt-4 ml-5">
-                                <span class="mr-3">请输入原密码:</span>
-                                <input type="password" name="password2"></input>
-                            </div>
-                            <button type="submit" class="d-block btn-info ml-auto mr-auto">确认修改</button>
-                        </form>
-                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            {% if type == 1 %}
+                                <a class="nav-link active" href="/personal_message/">查看新回复</a>
+                            {% else %}
+                                <a class="nav-link" href="/personal_message/">查看新回复</a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if type == 2 %}
+                                <a class="nav-link active" href="/personal_message?type=2">查看新粉丝</a>
+                            {% else %}
+                                <a class="nav-link" href="/personal_message?type=2">查看新粉丝</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                    {% if type == 1 %}
+                        <div class="list-reply">
+                            {% for reply in unReadReply %}
+                                <div class="border-top">
+                                    <div class="reply-info">
+                                        <span class="mr-5">{{ reply.author.username }}</span>
+                                        <span>{{ reply.publish_time|date:'Y-m-d H:i' }}</span>
+                                    </div>
+                                    <div class="post mt-3">
+                                        <span>回复我的帖子：</span>
+                                        <a href="/post/{{ reply.post.id }}/">
+                                            {{ reply.post.title }}
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% if type == 2 %}
+                        <div class="list-fans">
+                            {% for fans in unReadFans %}
+                                <div class="fans border-bottom">
+                                    <a href="/personal_page_by_other/{{ fans.user.id }}/">
+                                        <img src="{{ fans.user.portrait }}" alt="" class="mr-5">
+                                        <span class="mr-3">{{ fans.user.username }}</span>
+<!--                                        <span class="mr-3">粉丝: 23</span>-->
+<!--                                        <span class="mr-3">关注: 50</span>-->
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -207,10 +214,6 @@
             }
         });
 
-        {% if msg %}
-            alert("{{ msg }}")
-        {% endif %}
-
         let logo = document.getElementsByClassName("logo");
         let title = document.getElementsByTagName("h1");
         let logoArr = Array.from(logo);
@@ -232,6 +235,11 @@
         for (let i = 0; i < titleArr.length; i++) {
             titleArr[i].addEventListener("click", fun1);
             titleArr[i].addEventListener("mouseover", fun2);
+        }
+        let activeClassifications = document.getElementsByClassName("activeClassification");
+        if (activeClassifications.length > 0) {
+            activeClassification = activeClassifications[0];
+            activeClassification.style.backgroundColor = "#DCDCDC";
         }
 
         let searchBtn = document.getElementById("searchBtn");

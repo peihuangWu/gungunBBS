@@ -10,53 +10,38 @@
     <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
     <link rel="stylesheet" href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.css' %}">
     <style>
-        .option img {
+        .classification img {
             width: 25px;
             height: 25px;
         }
-        .option a {
+        .classification a {
             color: black;
             font-weight: bold;
         }
 
-        .option a:hover {
+        .classification a:hover {
             text-decoration: none;
+        }
+
+        .operation img {
+            width: 50px;
+            height: 50px;
+
         }
 
         .post a {
             color:inherit;
         }
 
-        .active {
-            background: #c6c8ca;
-        }
-
-        .follow {
-            height: 150px;
-            line-height: 150px;
-        }
-
-        .follow:hover {
-            background: #d6d8d9;
-        }
-
-        .follow a{
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
+        .nav a{
             color: black;
         }
 
-        .follow a:hover {
-            text-decoration: none;
+        .page-item a {
+            color: black;
         }
 
-        .follow img {
-            width: 80px;
-            height: 80px;
-        }
-
-        .search{
+         .search{
             width: 100%;
             display: flex;
             margin-top: 30px;
@@ -151,51 +136,72 @@
     <main class="mt-4">
         <div class="container">
             <div class="row">
-                <div class="option col-md-2">
-                    <h2 class="font-weight-bold">个人中心</h2>
-                     <div class="mt-4">
-                        <img src="{% static 'images/my_info.png' %}" alt="">
-                        <a href="/personal_info/" class="font-weight-lighter">我的资料</a>
+                <div class="classification col-md-2">
+                    <h2 class="font-weight-bold mt-3">{{ topic.name }}</h2>
+                    <div class="mt-5">
+                        <img src="{% static 'images/follow_num.png' %}" alt="">
+                        <span class="font-weight-bold">关注人数</span>
+                        <p class="font-weight-bold ml-4 mt-1">{{ topic.follow_num }}</p>
                     </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/my_portrait.png' %}" alt="">
-                        <a href="/personal_portrait/" class="font-weight-lighter">修改头像</a>
+                    <div class="mt-5 operation">
+                        <div class="publish mt-5">
+                            <a href="/publish_topic_post?topic_id={{ topic.id }}">
+                                <img src="{% static 'images/publish_post.png' %}" alt="">
+                                <p class="ml-2">发帖</p>
+                            </a>
+                        </div>
+                        <div class="refresh mt-5">
+                            <a href="/topic?id={{ topic.id }}">
+                                <img src="{% static 'images/refresh.png' %}" alt="">
+                                <p class="ml-2">刷新</p>
+                            </a>
+                        </div>
                     </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/my_dynamic.png' %}" alt="">
-                        <a href="/personal_dynamic/" class="font-weight-lighter">我的动态</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/my_follows.png' %}" alt="">
-                        <a href="/personal_follow/" class="font-weight-lighter">我的关注</a>
-                    </div>
-                    <div class="mt-4 active">
-                        <img src="{% static 'images/my_fans.png' %}" alt="">
-                        <a href="/personal_fans/" class="font-weight-lighter">我的粉丝</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/privacy_setting.png' %}" alt="">
-                        <a href="/personal_privacy/" class="font-weight-lighter">隐私设置</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/change_password.png' %}" alt="">
-                        <a href="/personal_password/" class="font-weight-lighter">修改密码</a>
-                    </div>
+                    {% if hasFollow %}
+                        <button class="followBtn btn-block btn-primary mt-5">已关注</button>
+                    {% else %}
+                        <button class="followBtn btn-block btn-primary mt-5">关注此话题</button>
+                    {% endif %}
                 </div>
                 <div class="content col-md-10">
-                    <div class="info">
-                        <h3 class="font-weight-bold ml-5">我的粉丝</h3>
-                        <span class="num d-block ml-5 mt-3 mb-2">共 {{ num }} 人</span>
-                    </div>
-                    <div class="list ml-5">
-                        {% for person in persons %}
-                            <div class="follow border-bottom">
-                                <a href="/personal_page_by_other/{{ person.id }}/" target="_blank">
-                                    <img src="{{ person.portrait }}" alt="" class="mr-5">
-                                    <span class="mr-3">{{ person.username }}</span>
-<!--                                    <span class="mr-3">粉丝: 23</span>-->
-<!--                                    <span class="mr-3">关注: 50</span>-->
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item col-md-2 text-center">
+                            {% if nav_tab == 1 %}
+                                <a class="nav-link active" target="_self" href="/topic?id={{ topic.id }}&tab=1">看帖</a>
+                            {% else %}
+                                <a class="nav-link" target="_self" href="/topic?id={{ topic.id }}&tab=1">看帖</a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item col-md-2 text-center">
+                            {% if nav_tab == 3 %}
+                                <a class="nav-link active" target="_self" href="/topic?id={{ topic.id }}&tab=3">热门</a>
+                            {% else %}
+                                <a class="nav-link" target="_self" href="/topic?id={{ topic.id }}&tab=3">热门</a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item col-md-2 text-center">
+                            {% if nav_tab == 2 %}
+                                <a class="nav-link active" target="_self" href="/topic?id={{ topic.id }}&tab=2">精品</a>
+                            {% else %}
+                                <a class="nav-link" target="_self" href="/topic?id={{ topic.id }}&tab=2">精品</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <div class="list">
+                        {% for post in posts %}
+                            <div class="post border-top">
+                                <a href="/topic_post/{{ post.id }}/">
+                                    <p class="title mt-1">{{ post.title }}</p>
                                 </a>
+                                <div class="info1">
+                                    <a href="/personal_page_by_other/{{ post.author.id }}/" class="info-user">{{ post.author.username }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="info-time">{{ post.publish_time|date:'Y-m-d H:i' }}</span>
+                                </div>
+                                <div class="info2">
+                                    浏览:&nbsp;<span class="info-clickNum">{{ post.click_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    回复:&nbsp;<span class="info-replyNum">{{ post.reply_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <!--                                点赞:&nbsp;<span class="info-favNum">34</span>-->
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
@@ -203,25 +209,24 @@
             </div>
         </div>
     </main>
-
     <footer class="mt-4">
-        <nav aria-label="Page navigation example" class="mt-4">
+        <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 {% if page > 1 %}
                     <li class="page-item">
-                        <a class="page-link" target="_self" href="/personal_follow?page={{ page|add:-1 }}" tabindex="-1">上一页</a>
+                        <a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:-1 }}" tabindex="-1">上一页</a>
                     </li>
                 {% endif %}
-                <li class="page-item"><a class="page-link" target="_self" href="/personal_follow?page={{ page }}">{{ page }}</a></li>
+                <li class="page-item"><a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page }}">{{ page }}</a></li>
                 {% if page < page_num %}
-                    <li class="page-item"><a class="page-link" target="_self" href="/personal_follow?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+                    <li class="page-item"><a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
                 {% endif %}
                 {% if page|add:1 < page_num %}
-                    <li class="page-item"><a class="page-link" target="_self" href="/personal_follow?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+                    <li class="page-item"><a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
                 {% endif %}
                 {% if page < page_num %}
                     <li class="page-item">
-                        <a class="page-link" target="_self" href="/personal_follow?page={{ page|add:1 }}">下一页</a>
+                        <a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:1 }}">下一页</a>
                     </li>
                 {% endif %}
             </ul>
@@ -276,6 +281,30 @@
         let searchText = document.getElementById("searchText");
         searchBtn.addEventListener("click", (e)=>{
             window.location.href = "/search?searchText=" + searchText.value;
+        });
+
+        let followBtn = document.getElementsByClassName("followBtn")[0];
+        followBtn.addEventListener("click", (e)=>{
+            let data = {};
+            if (followBtn.innerText == "关注此话题")
+                data.type = 1;
+            else
+                data.type = 2;
+            data.followerId = {{ topic.id }};
+            $.ajax({
+                url: "/follow_topic/",
+                data: JSON.stringify(data),
+                type: "POST",
+                dataType: 'json',
+                success: function(re) {
+                    if(re.status == '1') {
+                        if (followBtn.innerText == "关注此话题")
+                            followBtn.innerText = "已关注";
+                        else
+                            followBtn.innerText = "关注此话题";
+                    }
+                }
+            });
         });
     </script>
 </body>

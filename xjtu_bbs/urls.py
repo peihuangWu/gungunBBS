@@ -41,7 +41,16 @@ urlpatterns = [
     url(r"^personal_privacy/$", PersonalPrivacyView.as_view(), name="personal_privacy"),
     url(r"^personal_password/$", PersonalPasswordView.as_view(), name="personal_password"),
     url(r"^personal_page_by_other/(?P<id>\d+)/$", PersonalPageByOtherView.as_view(), name="personal_page_by_other"),
-    url(r"^follow/$", FollowView.as_view(), name="follow")
+    url(r"^follow/$", FollowView.as_view(), name="follow"),
+    url(r"^personal_message/$", PersonalMessageView.as_view(), name="personal_message"),
+    url(r"^collect/$", CollectView.as_view(), name="collect"),
+    url(r"^publish_topic/$", PublishTopicView.as_view(), name="publish_topic"),
+    url(r"^topic/$", TopicView.as_view(), name="topic"),
+    url(r"^follow_topic/$", FollowTopicView.as_view(), name="follow_topic"),
+    url(r"^publish_topic_post/$", PublishTopicPostView.as_view(), name="publish_topic_post"),
+    url(r"^topic_post/(?P<id>\d+)/$", TopicPostView.as_view(), name="topic_post"),
+    url(r"^topic_reply/(?P<post_id>\d+)/$", TopicReplyView.as_view(), name="topic_reply"),
+
 ]
 
 # handler404 = 'bbs.views.page_not_found'

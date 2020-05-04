@@ -17,7 +17,21 @@ class PersonalInfoView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
 
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
+
         return render(request, "personal_info.html", {
+            "unReadReplyNum": unReadReplyNum,
+            "unReadFansNum": unReadFansNum,
+            "unReadMessageNum": unReadMessageNum,
             "user": request.user
         })
 
@@ -69,7 +83,21 @@ class PersonalPortraitView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
 
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
+
         return render(request, "personal_portrait.html", {
+            "unReadReplyNum": unReadReplyNum,
+            "unReadFansNum": unReadFansNum,
+            "unReadMessageNum": unReadMessageNum,
             "user": request.user
         })
 
@@ -98,9 +126,10 @@ class PersonalDynamicView(View):
             for reply in replys:
                 post_ids.append(reply.post.id)
             posts = Post.objects.filter(id__in=post_ids).order_by("-publish_time")
-        else:
+        elif type == 2:
             posts = Post.objects.filter(author=request.user).order_by("-publish_time")
-
+        else:
+            collects = UserCollect.objects.filter(user=request.user).order_by("-collect_time")
         class_map = {
             "生活专区": "live",
             "学习专区": "study",
@@ -114,10 +143,15 @@ class PersonalDynamicView(View):
             "旅游专区": "tour"
         }
 
-        for post in posts:
-            post.type_name = class_map[post.type]
+        if type == 1 or type == 2:
+            for post in posts:
+                post.type_name = class_map[post.type]
+            post_count = posts.count()
+        else:
+            for collect in collects:
+                collect.post.type_name = class_map[collect.post.type]
+            post_count = collects.count()
 
-        post_count = posts.count()
         try:
             page = request.GET.get('page', 1)
             page = int(page)
@@ -126,11 +160,27 @@ class PersonalDynamicView(View):
         if page < 0:
             page = 1
 
-        p = Paginator(posts, 10, request=request)
-        posts = p.page(page).object_list
+        if type == 1 or type == 2:
+            p = Paginator(posts, 10, request=request)
+            posts = p.page(page).object_list
+        else:
+            p = Paginator(collects, 10, request=request)
+            collects = p.page(page).object_list
+
         page_num = int(post_count / 10)
         if post_count % 10 != 0:
             page_num += 1
+
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
 
         if type == 1:
             return render(request, 'personal_dynamic.html', {
@@ -139,14 +189,31 @@ class PersonalDynamicView(View):
                 "page": page,
                 "page_num": page_num,
                 "user": request.user,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
             })
-        else:
+        elif type == 2:
             return render(request, 'personal_dynamic.html', {
                 "publish_posts": posts,
                 "type": type,
                 "page": page,
                 "page_num": page_num,
                 "user": request.user,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
+            })
+        else:
+            return render(request, 'personal_dynamic.html', {
+                "collect_posts": collects,
+                "type": type,
+                "page": page,
+                "page_num": page_num,
+                "user": request.user,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
             })
 
 
@@ -155,34 +222,78 @@ class PersonalFollowView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
 
-        user_follows = UserFollow.objects.filter(user=request.user)
-        person_ids = []
-        for user_follow in user_follows:
-            person_ids.append(user_follow.follower.id)
-        persons = User.objects.filter(id__in=person_ids)
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
 
-        person_count = persons.count()
         try:
-            page = request.GET.get('page', 1)
-            page = int(page)
-        except PageNotAnInteger:
-            page = 1
-        if page < 0:
-            page = 1
+            nav_tab = int(request.GET.get("tab", 1))
+        except Exception:
+            nav_tab = 1
 
-        p = Paginator(persons, 10, request=request)
-        persons = p.page(page).object_list
-        page_num = int(person_count / 10)
-        if person_count % 10 != 0:
-            page_num += 1
+        if nav_tab == 1:
+            user_follows = UserFollow.objects.filter(user=request.user)
+            person_count = user_follows.count()
+            try:
+                page = request.GET.get('page', 1)
+                page = int(page)
+            except PageNotAnInteger:
+                page = 1
+            if page < 0:
+                page = 1
 
-        return render(request, "personal_follow.html", {
-            "persons": persons,
-            "page": page,
-            "page_num": page_num,
-            "num": person_count,
-            "user": request.user,
-        })
+            p = Paginator(user_follows, 10, request=request)
+            user_follows = p.page(page).object_list
+            page_num = int(person_count / 10)
+            if person_count % 10 != 0:
+                page_num += 1
+
+            return render(request, "personal_follow.html", {
+                "user_follows": user_follows,
+                "nav_tab": nav_tab,
+                "page": page,
+                "page_num": page_num,
+                "num": person_count,
+                "user": request.user,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
+            })
+        else:
+            topic_follows = TopicFollow.objects.filter(user=request.user)
+            topic_count = topic_follows.count()
+            try:
+                page = request.GET.get('page', 1)
+                page = int(page)
+            except PageNotAnInteger:
+                page = 1
+            if page < 0:
+                page = 1
+
+            p = Paginator(topic_follows, 10, request=request)
+            topic_follows = p.page(page).object_list
+            page_num = int(topic_count / 10)
+            if topic_count % 10 != 0:
+                page_num += 1
+
+            return render(request, "personal_follow.html", {
+                "topic_follows": topic_follows,
+                "nav_tab": nav_tab,
+                "page": page,
+                "page_num": page_num,
+                "num": topic_count,
+                "user": request.user,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
+            })
 
 
 class PersonalFansView(View):
@@ -211,12 +322,26 @@ class PersonalFansView(View):
         if person_count % 10 != 0:
             page_num += 1
 
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
+
         return render(request, "personal_fans.html", {
             "persons": persons,
             "page": page,
             "page_num": page_num,
             "num": person_count,
             "user": request.user,
+            "unReadReplyNum": unReadReplyNum,
+            "unReadFansNum": unReadFansNum,
+            "unReadMessageNum": unReadMessageNum,
         })
 
 
@@ -225,8 +350,22 @@ class PersonalPrivacyView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
 
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
+
         return render(request, "personal_privacy.html", {
-            "user": request.user
+            "user": request.user,
+            "unReadReplyNum": unReadReplyNum,
+            "unReadFansNum": unReadFansNum,
+            "unReadMessageNum": unReadMessageNum,
         })
 
     def post(self, request):
@@ -286,6 +425,17 @@ class PersonalPageByOtherView(View):
         person.collegeName = colleges[person.college]
         isFans = UserFollow.objects.filter(user=request.user, follower=person).count() > 0
 
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
+
         if type == 1:
             person.privacy = person.reply_authority
             replys = Reply.objects.filter(author=person)
@@ -317,6 +467,9 @@ class PersonalPageByOtherView(View):
                 "page": page,
                 "page_num": page_num,
                 "type": type,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
             })
 
         elif type == 2:
@@ -346,6 +499,9 @@ class PersonalPageByOtherView(View):
                 "page": page,
                 "page_num": page_num,
                 "type": type,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
             })
         elif type == 3:
             person.privacy = person.follow_authority
@@ -379,6 +535,9 @@ class PersonalPageByOtherView(View):
                 "page_num": page_num,
                 "num": followers_count,
                 "type": type,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
             })
 
         else:
@@ -413,6 +572,9 @@ class PersonalPageByOtherView(View):
                 "page_num": page_num,
                 "num": fans_count,
                 "type": type,
+                "unReadReplyNum": unReadReplyNum,
+                "unReadFansNum": unReadFansNum,
+                "unReadMessageNum": unReadMessageNum,
             })
 
 
@@ -421,7 +583,21 @@ class PersonalPasswordView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
 
+        user_posts = Post.objects.filter(author=request.user)
+        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+        if unReadReplyNum > 99:
+            unReadReplyNum = 99
+        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+        if unReadFansNum > 99:
+            unReadFansNum = 99
+        unReadMessageNum = unReadReplyNum + unReadFansNum
+        if unReadMessageNum > 99:
+            unReadMessageNum = 99
+
         return render(request, "personal_password.html", {
+            "unReadReplyNum": unReadReplyNum,
+            "unReadFansNum": unReadFansNum,
+            "unReadMessageNum": unReadMessageNum,
             "user": request.user
         })
 
@@ -476,3 +652,74 @@ class FollowView(View):
                 return JsonResponse({'status': 2, 'msg': 'error'})
             user_follow.delete()
             return JsonResponse({'status': 1, 'msg': 'success'})
+
+
+class PersonalMessageView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+        try:
+            type = int(request.GET.get("type", 1))
+        except Exception:
+            type = 1
+
+        if type == 1:
+            user_posts = Post.objects.filter(author=request.user)
+            unReadReply = Reply.objects.filter(post__in=user_posts, hasRead=False).order_by("-publish_time")
+            for reply in unReadReply:
+                reply.hasRead = True
+                reply.save()
+            unReadMessageNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
+            if unReadMessageNum > 99:
+                unReadMessageNum = 99
+            return render(request, "personal_message.html", {
+                "user": request.user,
+                "type": type,
+                "unReadReply": unReadReply,
+                "unReadReplyNum": 0,
+                "unReadFansNum": unReadMessageNum,
+                "unReadMessageNum": unReadMessageNum,
+            })
+        else:
+            unReadFans = UserFollow.objects.filter(follower=request.user, hasRead=False).order_by("-follow_time")
+            for fans in unReadFans:
+                fans.hasRead = True
+                fans.save()
+            user_posts = Post.objects.filter(author=request.user)
+            unReadMessageNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
+            if unReadMessageNum > 99:
+                unReadMessageNum = 99
+            return render(request, "personal_message.html", {
+                "user": request.user,
+                "type": type,
+                "unReadFans": unReadFans,
+                "unReadReplyNum": unReadMessageNum,
+                "unReadFansNum": 0,
+                "unReadMessageNum": unReadMessageNum,
+            })
+
+
+class CollectView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+        try:
+            id = int(request.GET.get("id", 0))
+        except Exception:
+            id = 0
+
+        try:
+            post_info = Post.objects.get(id=id)
+        except Exception:
+            return JsonResponse({'status': 2, 'msg': 'error'})
+
+        user_collect = UserCollect.objects.filter(user=request.user, post=post_info)
+        if user_collect:
+            user_collect.delete()
+            return JsonResponse({'status': 1, 'msg': 'success'})
+
+        user_collect = UserCollect()
+        user_collect.user = request.user
+        user_collect.post = post_info
+        user_collect.save()
+        return JsonResponse({'status': 1, 'msg': 'success'})

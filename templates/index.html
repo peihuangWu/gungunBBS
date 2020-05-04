@@ -62,6 +62,44 @@
         .login img {
             border-radius: 50%;
         }
+
+        .operation img {
+            width: 50px;
+            height: 50px;
+
+        }
+
+        .publish-topic {
+            width: 360px;
+            height: 360px;
+            border: #adb5bd solid 1px;
+            position: absolute;
+            top: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            display: none;
+        }
+
+        .publish-topic .titleDiv {
+            position: absolute;
+            margin-left: 15%;
+            margin-top: 70px;
+        }
+
+        .publish-topic .submitDiv {
+            position: absolute;
+            margin-left: 35%;
+            margin-top: 200px;
+        }
+
+        .publish-topic input {
+            width: 250px;
+        }
+
+        .publish-topic button {
+            width: 70px;
+        }
     </style>
     <base target="_blank">
 </head>
@@ -78,16 +116,22 @@
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="search">
-                            <input type="text" placeholder="请输入..." name="" id="searchText" value="" />
+                            <input type="text" placeholder="请输入.." name="" id="searchText" value="" />
                             <button id="searchBtn"><i>搜索</i></button>
                         </div>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-3 text-center">
                         <div class="login mt-4">
                             <a href="/personal_info/">
                                 <img src="{{ user.portrait }}" alt="">
                                 <span>{{ user.username }}</span>
                             </a>
+                        </div>
+                    </div>
+                    <div class="col-md-1 text-center">
+                        <div class="message mt-4">
+                            <img src="{% static 'images/message.png' %}" alt="">
+                            <div>{{ unReadMessageNum }}</div>
                         </div>
                     </div>
                     <div class="col-md-1 text-center">
@@ -98,6 +142,19 @@
                             </a>
                         </div>
                     </div>
+                </div>
+
+                <div class="messageTab">
+                    <ul class="list-group">
+                        <li class="list-group-item" id="new-reply">
+                            查看回复
+                            <div class="text-center">{{ unReadReplyNum }}</div>
+                        </li>
+                        <li class="list-group-item" id="new-fans">
+                            查看新粉丝
+                            <div class="text-center">{{ unReadFansNum }}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -147,6 +204,24 @@
                     <div class="mt-4">
                         <img src="{% static 'images/tour.png' %}" alt="">
                         <a href="/classification/tour/" target="_self" class="font-weight-lighter">旅游专区</a>
+                    </div>
+                    <div class="mt-5 operation">
+                        <div class="publish mt-3">
+                            <a href="/publish/" target="_self" >
+                                <img src="{% static 'images/publish_post.png' %}" alt="">
+                                <p class="ml-2">发帖</p>
+                            </a>
+                        </div>
+                        <div class="refresh mt-5">
+                            <a href="/index/" target="_self" >
+                                <img src="{% static 'images/refresh.png' %}" alt="">
+                                <p class="ml-2">刷新</p>
+                            </a>
+                        </div>
+                        <div class="topic mt-5">
+                            <img src="{% static 'images/topic.png' %}" alt="">
+                            <p class="mt-1 font-weight-bold">发起话题</p>
+                        </div>
                     </div>
                 </div>
                 <div class="content col-md-10">
@@ -212,9 +287,38 @@
                     </div>
                 </div>
             </div>
+            <div class="publish-topic">
+                <div class="titleDiv">
+                    <input type="text" id="topicName" maxlength=30 placeholder="话题名称 不超过30个字符"></input>
+                </div>
+                <div class="submitDiv">
+                    <button id="publishTopic" class="btn-primary">确认</button>
+                </div>
+            </div>
         </div>
     </main>
     <script>
+        let message = document.getElementsByClassName("message")[0];
+        let messageTab = document.getElementsByClassName("messageTab")[0];
+        message.addEventListener("click", (e)=>{
+            if (messageTab.style.display == "block") {
+                messageTab.style.display = "none";
+            } else {
+                messageTab.style.display = "block";
+            }
+        });
+        $(".messageTab ul li").mouseover((e)=>{
+            e.currentTarget.style.backgroundColor = "gray";
+        }).mouseout((e)=>{
+            e.currentTarget.style.backgroundColor = "white";
+        }).click((e)=>{
+            if (e.currentTarget.id == "new-reply") {
+                window.open("/personal_message/");
+            } else if (e.currentTarget.id == "new-fans"){
+                window.open("/personal_message?type=2");
+            }
+        });
+
         let logo = document.getElementsByClassName("logo");
         let title = document.getElementsByTagName("h1");
         let logoArr = Array.from(logo);
@@ -242,6 +346,35 @@
         let searchText = document.getElementById("searchText");
         searchBtn.addEventListener("click", (e)=>{
             window.location.href = "/search?searchText=" + searchText.value;
+        });
+
+        let topic = document.getElementsByClassName("topic")[0];
+        topic.addEventListener("click", (e)=>{
+            let publishTopic = document.getElementsByClassName("publish-topic")[0];
+            if (publishTopic.style.display == "block") {
+                publishTopic.style.display = "none";
+            } else {
+                publishTopic.style.display = "block";
+            }
+        })
+
+        let publishTopic = document.getElementById("publishTopic");
+        publishTopic.addEventListener("click", (e)=>{
+            data = {"name": document.getElementById("topicName").value};
+            $.ajax({
+                url: "/publish_topic/",
+                data: JSON.stringify(data),
+                type: "POST",
+                contentType: "application/json",
+                success: function(re) {
+                    if(re.status == '1') {
+                        window.location.href = "/topic?id=" + re.topic_id;
+                    } else if (re.status == '2'){
+                        alert("该话题已存在！");
+                        window.location.href = "/topic?id=" + re.topic_id;
+                    }
+                }
+            });
         });
     </script>
 </body>

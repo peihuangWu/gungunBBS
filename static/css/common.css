@@ -1,4 +1,4 @@
-.register img, .login img, .info img, .logout img{
+.register img, .login img, .info img, .logout img, .message img{
     width: 25px;
     height: 25px;
 }
@@ -19,4 +19,30 @@
     width: 100px;
     height: 100%;
 }
+
+.message div, .messageTab div {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: red;
+    color:white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.messageTab {
+    position: absolute;
+    right: 410px;
+    margin-top: -50px;
+    width: 10%;
+    z-index: 100;
+    font-size: 12px;
+    display: none;
+}
+
+.messageTab div {
+    z-index: 100;
+}
+
 

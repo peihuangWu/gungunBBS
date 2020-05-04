@@ -49,6 +49,7 @@ class Reply(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者", null=True, blank=True)
     publish_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
     content = models.TextField(default="", verbose_name="内容")
+    hasRead = models.BooleanField(default=False, verbose_name="是否已读")
 
     class Meta:
         verbose_name = "回复信息"
@@ -72,3 +73,60 @@ class Banner(models.Model):
     def __str__(self):
         return self.title
 
+
+class Topic(models.Model):
+    name = models.CharField(max_length=30, verbose_name="话题名称", default="")
+    follow_num = models.IntegerField(default=0, verbose_name="话题关注人数")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = "话题信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
+class TopicPost(models.Model):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, verbose_name="所属话题", null=True, blank=True)
+    title = models.CharField(max_length=200, verbose_name="标题", default="")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者", null=True, blank=True)
+    publish_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
+    click_num = models.IntegerField(default=0, verbose_name="浏览数")
+    reply_num = models.IntegerField(default=0, verbose_name="回复数")
+    is_boutique = models.BooleanField(default=False, verbose_name="是否为精品")
+    content = models.TextField(default="", verbose_name="内容")
+
+    class Meta:
+        verbose_name = "帖子信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
+
+
+class TopicReply(models.Model):
+    post = models.ForeignKey(TopicPost, on_delete=models.CASCADE, verbose_name="帖子", null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者", null=True, blank=True)
+    publish_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
+    content = models.TextField(default="", verbose_name="内容")
+
+    class Meta:
+        verbose_name = "回复信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.content
+
+
+class TopicFollow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="用户", null=True, blank=True)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, verbose_name="话题", null=True, blank=True)
+    follow_time = models.DateTimeField(default=datetime.now, verbose_name="关注时间")
+
+    class Meta:
+        verbose_name = "用户关注话题表"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.user + "->" + self.topic

@@ -153,19 +153,19 @@
                     <ul class="pagination justify-content-center">
                         {% if page > 1 %}
                             <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:-1 }}" tabindex="-1">上一页</a>
+                                <a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:-1 }}" tabindex="-1">上一页</a>
                             </li>
                         {% endif %}
-                        <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page }}">{{ page }}</a></li>
+                        <li class="page-item"><a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page }}">{{ page }}</a></li>
                         {% if page < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+                            <li class="page-item"><a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
                         {% endif %}
                         {% if page|add:1 < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+                            <li class="page-item"><a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
                         {% endif %}
                         {% if page < page_num %}
                             <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">下一页</a>
+                                <a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:1 }}">下一页</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -186,14 +186,6 @@
                             <span>{{ post_info.publish_time|date:'Y-m-d H:i' }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             浏览&nbsp;<span>{{ post_info.click_num }}</span>&nbsp;&nbsp;
                             回复&nbsp;<span>{{ post_info.reply_num }}</span>&nbsp;&nbsp;
-                            {% if hasCollect %}
-                                <span class="ml-5 collect">取消收藏</span>
-                            {% else %}
-                                <span class="ml-5 collect">收藏</span>
-                            {% endif %}
-                            {% if post_info.author.username == user.username %}
-                                <a href="/delete/{{ post_info.id }}/" target="_self" class="position-absolute delete">删除</a>
-                            {% endif %}
                         </div>
                         {% autoescape off %}
                         <div class="post-content mt-md-3">
@@ -228,19 +220,19 @@
                     <ul class="pagination justify-content-center">
                         {% if page > 1 %}
                             <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:-1 }}" tabindex="-1">上一页</a>
+                                <a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:-1 }}" tabindex="-1">上一页</a>
                             </li>
                         {% endif %}
-                        <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page }}">{{ page }}</a></li>
+                        <li class="page-item"><a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page }}">{{ page }}</a></li>
                         {% if page < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+                            <li class="page-item"><a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
                         {% endif %}
                         {% if page|add:1 < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+                            <li class="page-item"><a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
                         {% endif %}
                         {% if page < page_num %}
                             <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">下一页</a>
+                                <a class="page-link" target="_self" href="/topic_post/{{ post_info.id }}?page={{ page|add:1 }}">下一页</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -344,31 +336,15 @@
         let publishBtn = document.getElementById("publish");
         publishBtn.addEventListener("click", (e)=>{
             var httpRequest = new XMLHttpRequest();
-            httpRequest.open('POST', '/reply/{{ post_info.id }}/', true);
+            httpRequest.open('POST', '/topic_reply/{{ post_info.id }}/', true);
             httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             let obj = {"content": editor.txt.getJSON()};
             httpRequest.send(JSON.stringify(obj));
             httpRequest.onreadystatechange = function () {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    window.location.href = "/post/{{ post_info.id }}/"
+                    window.location.href = "/topic_post/{{ post_info.id }}/"
                 }
             };
-        });
-
-        $(".collect").click((e)=>{
-            $.ajax({
-                url: "/collect?id={{ post_info.id }}",
-                type: "GET",
-                success: function(re) {
-                    if(re.status == '1') {
-                        if (e.currentTarget.innerText == "收藏") {
-                            e.currentTarget.innerText = "取消收藏";
-                        } else {
-                            e.currentTarget.innerText = "收藏";
-                        }
-                    }
-                }
-            });
         });
     </script>
 </body>

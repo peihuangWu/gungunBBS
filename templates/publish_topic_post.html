@@ -12,22 +12,6 @@
     <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
     <link rel="stylesheet" href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.css' %}">
     <style>
-        .reply {
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .reply-info {
-                bottom: 0px;
-                position: absolute;
-            }
-        }
-
-        .reply-content {
-            margin-bottom: 45px;
-        }
-
         .search{
             width: 100%;
             display: flex;
@@ -59,33 +43,8 @@
             font-size: 16px;
         }
 
-        .collect:hover {
-            cursor: pointer;
-        }
-
-        .delete {
-            right:50px
-        }
-
-<!--        .reply-content img, .post-content img {-->
-<!--            display:block;-->
-<!--        }-->
-
-        .portrait {
-            width:100px;
-            height:100px;
-            border-radius: 50%;
-        }
-
         .login img {
             border-radius: 50%;
-        }
-
-        .post a, .reply a {
-            color: black;
-        }
-        .post a:hover, .reply a:hover{
-            text-decoration: none;
         }
     </style>
     <base target="_blank">
@@ -146,110 +105,18 @@
             </div>
         </div>
     </header>
-    <main class="mt-3">
+    <main>
         <div class="container">
-            <div class="row">
-                <nav aria-label="Page navigation example" class="top-nav col-md-4 offset-md-8">
-                    <ul class="pagination justify-content-center">
-                        {% if page > 1 %}
-                            <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:-1 }}" tabindex="-1">上一页</a>
-                            </li>
-                        {% endif %}
-                        <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page }}">{{ page }}</a></li>
-                        {% if page < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
-                        {% endif %}
-                        {% if page|add:1 < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
-                        {% endif %}
-                        {% if page < page_num %}
-                            <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">下一页</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
-            {% if page == 1 %}
-                <div class="row border-bottom post">
-                    <div class="col-md-2 mt-3">
-                        <a href="/personal_page_by_other/{{ post_info.author.id }}/">
-                            <img class="portrait" src="{{ post_info.author.portrait }}" alt="">
-                            <p class="mt-3">{{ post_info.author.username }}</p>
-                            <p class="">1楼</p>
-                        </a>
-                    </div>
-                    <div class="col-md-10">
-                        <h2>{{ post_info.title }}</h2>
-                        <div class="post-info position-relative mt-3">
-                            <span>{{ post_info.publish_time|date:'Y-m-d H:i' }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            浏览&nbsp;<span>{{ post_info.click_num }}</span>&nbsp;&nbsp;
-                            回复&nbsp;<span>{{ post_info.reply_num }}</span>&nbsp;&nbsp;
-                            {% if hasCollect %}
-                                <span class="ml-5 collect">取消收藏</span>
-                            {% else %}
-                                <span class="ml-5 collect">收藏</span>
-                            {% endif %}
-                            {% if post_info.author.username == user.username %}
-                                <a href="/delete/{{ post_info.id }}/" target="_self" class="position-absolute delete">删除</a>
-                            {% endif %}
-                        </div>
-                        {% autoescape off %}
-                        <div class="post-content mt-md-3">
-                        </div>
-                        {% endautoescape %}
-                    </div>
+            <div class="editDiv mt-5">
+                <div class="form-group">
+                    <input name="title" type="text" maxlength=50 placeholder="请填写标题" class="form-control title" id="title"></input>
                 </div>
-            {% endif %}
-            {% for reply in replys %}
-                <div class="row border-bottom reply ">
-                    <div class="col-md-2 mt-3">
-                        <a href="/personal_page_by_other/{{ reply.author.id }}/">
-                            <img class="portrait" src="{{ reply.author.portrait }}" alt="">
-                            <p class="mt-3">{{ reply.author.username }}</p>
-                            <p class="">{{ reply.num }}楼</p>
-                        </a>
-                    </div>
-                    <div class="col-md-10 ">
-                        {% autoescape off %}
-                        <div class="reply-content mt-3">
-                        </div>
-                        {% endautoescape %}
-                        <div class="reply-info">
-                            <span>{{ reply.publish_time|date:'Y-m-d H:i' }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+                <div class="form-group mt-3" id="content">
 
-            <div class="row mt-3">
-                <nav aria-label="Page navigation example" class="top-nav col-md-4">
-                    <ul class="pagination justify-content-center">
-                        {% if page > 1 %}
-                            <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:-1 }}" tabindex="-1">上一页</a>
-                            </li>
-                        {% endif %}
-                        <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page }}">{{ page }}</a></li>
-                        {% if page < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
-                        {% endif %}
-                        {% if page|add:1 < page_num %}
-                            <li class="page-item"><a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
-                        {% endif %}
-                        {% if page < page_num %}
-                            <li class="page-item">
-                                <a class="page-link" target="_self" href="/post/{{ post_info.id }}?page={{ page|add:1 }}">下一页</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
-            <div class="editDiv">
-                <div id="edit-content"></div>
-                <button id="publish" class="btn btn-outline-primary d-block ml-auto mr-auto mt-3">发布</button>
-                <div id="content"></div>
+                </div>
+                <div class="form-group">
+                    <button id="submit" class="btn btn-outline-primary d-block ml-auto mr-auto">发布</button>
+                </div>
             </div>
         </div>
     </main>
@@ -274,21 +141,6 @@
                 window.open("/personal_message?type=2");
             }
         });
-
-        let postNodes = document.getElementsByClassName("post-content");
-        if (postNodes.length > 0) {
-            let postNode = postNodes[0];
-            {% autoescape off %}
-                Json2Html({{ post_info.content }}, postNode);
-            {% endautoescape%}
-        }
-
-        let replyNodes = document.getElementsByClassName("reply-content");
-        {% for reply in replys %}
-            {% autoescape off %}
-                Json2Html({{ reply.content }}, replyNodes[{{ forloop.counter|add:-1 }}]);
-            {% endautoescape%}
-        {% endfor %}
 
         let logo = document.getElementsByClassName("logo");
         let title = document.getElementsByTagName("h1");
@@ -317,9 +169,8 @@
             window.location.href = "/search?searchText=" + searchText.value;
         });
 
-
         var E = window.wangEditor;
-        var editor = new E('#edit-content');
+        var editor = new E('#content');
         editor.customConfig.uploadImgShowBase64 = true;
         editor.customConfig.emotions = [
             {
@@ -341,34 +192,20 @@
         ]
         editor.create();
 
-        let publishBtn = document.getElementById("publish");
-        publishBtn.addEventListener("click", (e)=>{
+        let submitBtn = document.getElementById("submit");
+        let titleText = document.getElementById("title");
+
+        submitBtn.addEventListener("click", (e)=>{
             var httpRequest = new XMLHttpRequest();
-            httpRequest.open('POST', '/reply/{{ post_info.id }}/', true);
+            httpRequest.open('POST', '/publish_topic_post/', true);
             httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            let obj = {"content": editor.txt.getJSON()};
+            let obj = {"content": editor.txt.getJSON(), "title": titleText.value, "topic_id": {{ topic_id}} };
             httpRequest.send(JSON.stringify(obj));
             httpRequest.onreadystatechange = function () {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    window.location.href = "/post/{{ post_info.id }}/"
+                    window.location.href = "/topic?id={{ topic_id }}"
                 }
             };
-        });
-
-        $(".collect").click((e)=>{
-            $.ajax({
-                url: "/collect?id={{ post_info.id }}",
-                type: "GET",
-                success: function(re) {
-                    if(re.status == '1') {
-                        if (e.currentTarget.innerText == "收藏") {
-                            e.currentTarget.innerText = "取消收藏";
-                        } else {
-                            e.currentTarget.innerText = "收藏";
-                        }
-                    }
-                }
-            });
         });
     </script>
 </body>

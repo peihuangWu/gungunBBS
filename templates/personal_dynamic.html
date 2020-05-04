@@ -77,23 +77,29 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-1 text-center">
-                        <img src="{% static 'images/logo.png' %}" alt="" class="rounded-circle logo" id="logo">
+                        <img src="{% static 'images/logo.png' %}" alt="" class="rounded-circle logo">
                     </div>
                     <div class="col-md-2 text-center">
                         <h1 class="mt-4 ml-1">gungun</h1>
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="search">
-                            <input type="text" placeholder="请输入..." name="" id="searchText" value="" />
+                            <input type="text" placeholder="请输入.." name="" id="searchText" value="" />
                             <button id="searchBtn"><i>搜索</i></button>
                         </div>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-3 text-center">
                         <div class="login mt-4">
                             <a href="/personal_info/">
                                 <img src="{{ user.portrait }}" alt="">
                                 <span>{{ user.username }}</span>
                             </a>
+                        </div>
+                    </div>
+                    <div class="col-md-1 text-center">
+                        <div class="message mt-4">
+                            <img src="{% static 'images/message.png' %}" alt="">
+                            <div>{{ unReadMessageNum }}</div>
                         </div>
                     </div>
                     <div class="col-md-1 text-center">
@@ -104,6 +110,19 @@
                             </a>
                         </div>
                     </div>
+                </div>
+
+                <div class="messageTab">
+                    <ul class="list-group">
+                        <li class="list-group-item" id="new-reply">
+                            查看回复
+                            <div class="text-center">{{ unReadReplyNum }}</div>
+                        </li>
+                        <li class="list-group-item" id="new-fans">
+                            查看新粉丝
+                            <div class="text-center">{{ unReadFansNum }}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -158,12 +177,13 @@
                                 <a class="nav-link" href="/personal_dynamic?type=2">我发表的帖子</a>
                             {% endif %}
                         </li>
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" href="#">我收藏过的帖子</a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link" href="#">我点赞过的帖子</a>-->
-<!--                        </li>-->
+                        <li class="nav-item">
+                            {% if type == 3 %}
+                                <a class="nav-link active" href="/personal_dynamic?type=3">我收藏的帖子</a>
+                            {% else %}
+                                <a class="nav-link" href="/personal_dynamic?type=3">我收藏的帖子</a>
+                            {% endif %}
+                        </li>
                     </ul>
                     {% if type == 1 %}
                         <div class="list-reply">
@@ -250,12 +270,76 @@
                             </nav>
                         </div>
                     {% endif %}
+                    {% if type == 3 %}
+                        <div class="list-collect">
+                            {% for collect in collect_posts %}
+                                <div class="post border-top">
+                                    <a href="/post/{{ collect.post.id }}/" target="_blank">
+                                        <p class="title mt-1">{{ collect.post.title }}</p>
+                                    </a>
+                                    <div class="info1">
+                                        <a href="/classification/{{ collect.type_name }} " class="info-class" target="_blank">{{ collect.post.type }}</a>
+                                        <a href="/personal_page_by_other/{{ collect.post.author.id }}" class="info-user" target="_blank">{{ collect.post.author.username }}</a>
+                                        <span class="info-time">{{ collect.post.publish_time|date:'Y-m-d H:i' }}</span>
+                                    </div>
+                                    <div class="info2">
+                                        浏览:&nbsp;<span class="info-clickNum">{{ collect.post.click_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        回复:&nbsp;<span class="info-replyNum">{{ collect.post.reply_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <!--                                点赞:&nbsp;<span class="info-favNum">34</span>-->
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <nav aria-label="Page navigation example" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    {% if page > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" target="_self" href="/personal_dynamic?type=3&page={{ page|add:-1 }}" tabindex="-1">上一页</a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item"><a class="page-link" target="_self" href="/personal_dynamic?type=3&page={{ page }}">{{ page }}</a></li>
+                                    {% if page < page_num %}
+                                        <li class="page-item"><a class="page-link" target="_self" href="/personal_dynamic?type=3&page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+                                    {% endif %}
+                                    {% if page|add:1 < page_num %}
+                                        <li class="page-item"><a class="page-link" target="_self" href="/personal_dynamic?type=3&page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+                                    {% endif %}
+                                    {% if page < page_num %}
+                                        <li class="page-item">
+                                            <a class="page-link" target="_self" href="/personal_dynamic?type=3&page={{ page|add:1 }}">下一页</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </main>
 
     <script>
+        let message = document.getElementsByClassName("message")[0];
+        let messageTab = document.getElementsByClassName("messageTab")[0];
+        message.addEventListener("click", (e)=>{
+            if (messageTab.style.display == "block") {
+                messageTab.style.display = "none";
+            } else {
+                messageTab.style.display = "block";
+            }
+        });
+        $(".messageTab ul li").mouseover((e)=>{
+            e.currentTarget.style.backgroundColor = "gray";
+        }).mouseout((e)=>{
+            e.currentTarget.style.backgroundColor = "white";
+        }).click((e)=>{
+            if (e.currentTarget.id == "new-reply") {
+                window.open("/personal_message/");
+            } else if (e.currentTarget.id == "new-fans"){
+                window.open("/personal_message?type=2");
+            }
+        });
+
         let logo = document.getElementsByClassName("logo");
         let title = document.getElementsByTagName("h1");
         let logoArr = Array.from(logo);
