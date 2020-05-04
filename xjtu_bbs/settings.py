@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'xjtu_bbs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'xjtu_bbs',
-        'USER': 'root',
-        'PASSWORD': '961221',
+        'NAME': '你的数据库名',
+        'USER': '你的用户名',
+        'PASSWORD': '你的密码',
         'HOST': 'localhost',
         'PORT': '3306',
     }
