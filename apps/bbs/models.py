@@ -17,6 +17,8 @@ class User(AbstractUser):
     publish_authority = models.IntegerField(default=3, verbose_name="我的发表访问权限")
     follow_authority = models.IntegerField(default=3, verbose_name="我的关注访问权限")
     fans_authority = models.IntegerField(default=3, verbose_name="我的粉丝访问权限")
+    un_read_reply_num = models.IntegerField(default=0, verbose_name="未读回复数")
+    un_read_fans_num = models.IntegerField(default=0, verbose_name="未读粉丝数")
 
     class Meta:
         verbose_name = "用户信息"
@@ -49,7 +51,6 @@ class Reply(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者", null=True, blank=True)
     publish_time = models.DateTimeField(default=datetime.now, verbose_name="发布时间")
     content = models.TextField(default="", verbose_name="内容")
-    hasRead = models.BooleanField(default=False, verbose_name="是否已读")
 
     class Meta:
         verbose_name = "回复信息"
@@ -130,3 +131,5 @@ class TopicFollow(models.Model):
 
     def __str__(self):
         return self.user + "->" + self.topic
+
+

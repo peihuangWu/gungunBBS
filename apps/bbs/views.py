@@ -36,24 +36,10 @@ class IndexView(View):
         for post in posts:
             post.type2 = class_map.get(post.type, "live")
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         return render(request, 'index.html', {
             "user": request.user,
             "banners": banners,
             "posts": posts,
-            "unReadReplyNum": unReadReplyNum,
-            "unReadFansNum": unReadFansNum,
-            "unReadMessageNum": unReadMessageNum,
         })
 
 
@@ -110,17 +96,6 @@ class ClassificationView(View):
         if post_count % 10 != 0:
             page_num += 1
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         return render(request, 'area.html', {
             "posts": posts,
             "type": oldtype,
@@ -128,9 +103,6 @@ class ClassificationView(View):
             "page_num": page_num,
             "nav_tab": nav_tab,
             "user": request.user,
-            "unReadReplyNum": unReadReplyNum,
-            "unReadFansNum": unReadFansNum,
-            "unReadMessageNum": unReadMessageNum,
         })
 
 
@@ -190,22 +162,8 @@ class PublishView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         return render(request, "publish_post.html", {
             "user": request.user,
-            "unReadReplyNum": unReadReplyNum,
-            "unReadFansNum": unReadFansNum,
-            "unReadMessageNum": unReadMessageNum,
         })
 
     def post(self, request):
@@ -277,17 +235,6 @@ class PostView(View):
         for i, reply in enumerate(replys, 2):
             reply.num = (page - 1) * 10 + i
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         if UserCollect.objects.filter(user=request.user, post=post_info):
             hasCollect = True
         else:
@@ -299,9 +246,6 @@ class PostView(View):
             "page_num": page_num,
             "page": page,
             "user": request.user,
-            "unReadReplyNum": unReadReplyNum,
-            "unReadFansNum": unReadFansNum,
-            "unReadMessageNum": unReadMessageNum,
             "hasCollect": hasCollect,
         })
 
@@ -323,6 +267,9 @@ class ReplyView(View):
         reply.author = request.user
         reply.content = content
         reply.save()
+        if post_info.author != request.user:
+            post_info.author.un_read_reply_num += 1
+            post_info.author.save()
         return HttpResponseRedirect(reverse("post", kwargs={'id': post_info.id}))
 
 
@@ -347,17 +294,6 @@ class SearchView(View):
         else:
             topics = Topic.objects.filter(name__icontains=search_text)
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         try:
             page = request.GET.get('page', 1)
             page = int(page)
@@ -381,9 +317,6 @@ class SearchView(View):
                 "user": request.user,
                 "nav_tab": nav_tab,
                 "searchText": search_text,
-                "unReadReplyNum": unReadReplyNum,
-                "unReadFansNum": unReadFansNum,
-                "unReadMessageNum": unReadMessageNum,
             })
         elif nav_tab == 4:
             user_count = users.count()
@@ -400,9 +333,6 @@ class SearchView(View):
                 "user": request.user,
                 "nav_tab": nav_tab,
                 "searchText": search_text,
-                "unReadReplyNum": unReadReplyNum,
-                "unReadFansNum": unReadFansNum,
-                "unReadMessageNum": unReadMessageNum,
             })
         else:
             topic_count = topics.count()
@@ -419,9 +349,6 @@ class SearchView(View):
                 "user": request.user,
                 "nav_tab": nav_tab,
                 "searchText": search_text,
-                "unReadReplyNum": unReadReplyNum,
-                "unReadFansNum": unReadFansNum,
-                "unReadMessageNum": unReadMessageNum,
             })
 
 
@@ -501,17 +428,6 @@ class TopicView(View):
         if post_count % 10 != 0:
             page_num += 1
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         return render(request, 'topic.html', {
             "topic": topic,
             "posts": posts,
@@ -520,9 +436,6 @@ class TopicView(View):
             "nav_tab": nav_tab,
             "user": request.user,
             "hasFollow": hasFollow,
-            "unReadReplyNum": unReadReplyNum,
-            "unReadFansNum": unReadFansNum,
-            "unReadMessageNum": unReadMessageNum,
         })
 
 
@@ -570,22 +483,8 @@ class PublishTopicPostView(View):
         except Exception:
             topic_id = 1
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         return render(request, "publish_topic_post.html", {
             "user": request.user,
-            "unReadReplyNum": unReadReplyNum,
-            "unReadFansNum": unReadFansNum,
-            "unReadMessageNum": unReadMessageNum,
             "topic_id": topic_id,
         })
 
@@ -645,26 +544,12 @@ class TopicPostView(View):
         for i, reply in enumerate(replys, 2):
             reply.num = (page - 1) * 10 + i
 
-        user_posts = Post.objects.filter(author=request.user)
-        unReadReplyNum = Reply.objects.filter(post__in=user_posts, hasRead=False).count()
-        if unReadReplyNum > 99:
-            unReadReplyNum = 99
-        unReadFansNum = UserFollow.objects.filter(follower=request.user, hasRead=False).count()
-        if unReadFansNum > 99:
-            unReadFansNum = 99
-        unReadMessageNum = unReadReplyNum + unReadFansNum
-        if unReadMessageNum > 99:
-            unReadMessageNum = 99
-
         return render(request, "topic_post_detail.html", {
             "post_info": post_info,
             "replys": replys,
             "page_num": page_num,
             "page": page,
             "user": request.user,
-            "unReadReplyNum": unReadReplyNum,
-            "unReadFansNum": unReadFansNum,
-            "unReadMessageNum": unReadMessageNum,
         })
 
 

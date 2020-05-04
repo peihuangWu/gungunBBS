@@ -6,6 +6,7 @@
     <title>gungun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <script src="{% static 'js/Popper.js' %}"></script>
     <script src="{% static 'js/common.js' %}"></script>
     <script src="{% static 'jQuery/jQuery.js' %}"></script>
     <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
@@ -114,47 +115,72 @@
                     <div class="col-md-2 text-center">
                         <h1 class="mt-4 ml-1">gungun</h1>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-3 text-center">
                         <div class="search">
                             <input type="text" placeholder="请输入.." name="" id="searchText" value="" />
                             <button id="searchBtn"><i>搜索</i></button>
                         </div>
                     </div>
-                    <div class="col-md-3 text-center">
-                        <div class="login mt-4">
-                            <a href="/personal_info/">
-                                <img src="{{ user.portrait }}" alt="">
-                                <span>{{ user.username }}</span>
+                    <div class="dropdown login mt-4 col-md-3">
+                        <img src="{{ user.portrait }}" alt="">
+                        <button class="btn btn-info dropdown-toggle" style="color:black;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/personal_info/">
+                                <img src="{% static 'images/my_info.png' %}" alt="">
+                                我的资料
+                            </a>
+                            <a class="dropdown-item" href="/personal_portrait/">
+                                <img src="{% static 'images/my_portrait.png' %}" alt="">
+                                修改头像
+                            </a>
+                            <a class="dropdown-item" href="/personal_dynamic/">
+                                <img src="{% static 'images/my_dynamic.png' %}" alt="">
+                                我的动态
+                            </a>
+                            <a class="dropdown-item" href="/personal_follow/">
+                                <img src="{% static 'images/my_follows.png' %}" alt="">
+                                我的关注
+                            </a>
+                            <a class="dropdown-item" href="/personal_fans/">
+                                <img src="{% static 'images/my_fans.png' %}" alt="">
+                                我的粉丝
+                            </a>
+                            <a class="dropdown-item" href="/personal_privacy/">
+                                <img src="{% static 'images/privacy_setting.png' %}" alt="">
+                                隐私设置
+                            </a>
+                            <a class="dropdown-item" href="/personal_password/">
+                                <img src="{% static 'images/change_password.png' %}" alt="">
+                                修改密码
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-1 text-center">
-                        <div class="message mt-4">
-                            <img src="{% static 'images/message.png' %}" alt="">
-                            <div>{{ unReadMessageNum }}</div>
+                    <div class="dropdown message mt-4 col-md-2">
+                        <img src="{% static 'images/message.png' %}" alt="">
+                        <button class="btn btn-info dropdown-toggle" style="color:black;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            我的消息
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/personal_message/">
+                                <div class="number text-center">{{ user.un_read_reply_num }}</div>
+                                查看新回复
+                            </a>
+                            <a class="dropdown-item" href="/personal_message?type=2">
+                                <div class="number text-center">{{ user.un_read_fans_num }}</div>
+                                查看新粉丝
+                            </a>
                         </div>
                     </div>
-                    <div class="col-md-1 text-center">
-                        <div class="logout mt-4">
+                    <div class="col-md-1 mt-4">
+                        <div class="logout mt-2">
                             <a href="/logout/">
                                 <img src="{% static 'images/logout.png' %}" alt="">
                                 <span>退出</span>
                             </a>
                         </div>
                     </div>
-                </div>
-
-                <div class="messageTab">
-                    <ul class="list-group">
-                        <li class="list-group-item" id="new-reply">
-                            查看回复
-                            <div class="text-center">{{ unReadReplyNum }}</div>
-                        </li>
-                        <li class="list-group-item" id="new-fans">
-                            查看新粉丝
-                            <div class="text-center">{{ unReadFansNum }}</div>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -298,27 +324,6 @@
         </div>
     </main>
     <script>
-        let message = document.getElementsByClassName("message")[0];
-        let messageTab = document.getElementsByClassName("messageTab")[0];
-        message.addEventListener("click", (e)=>{
-            if (messageTab.style.display == "block") {
-                messageTab.style.display = "none";
-            } else {
-                messageTab.style.display = "block";
-            }
-        });
-        $(".messageTab ul li").mouseover((e)=>{
-            e.currentTarget.style.backgroundColor = "gray";
-        }).mouseout((e)=>{
-            e.currentTarget.style.backgroundColor = "white";
-        }).click((e)=>{
-            if (e.currentTarget.id == "new-reply") {
-                window.open("/personal_message/");
-            } else if (e.currentTarget.id == "new-fans"){
-                window.open("/personal_message?type=2");
-            }
-        });
-
         let logo = document.getElementsByClassName("logo");
         let title = document.getElementsByTagName("h1");
         let logoArr = Array.from(logo);

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="46244d62-1748-4004-ad2c-898e63d271b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/bbs/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/bbs/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/bbs/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/bbs/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/bbs/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/bbs/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/usersystem/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/usersystem/models.py" afterDir="false" />
@@ -15,13 +14,16 @@
       <change beforePath="$PROJECT_DIR$/templates/personal_fans.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_fans.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_follow.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_follow.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/personal_message.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_message.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_page_by_other.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_page_by_other.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_password.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_password.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_portrait.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_portrait.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/personal_privacy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personal_privacy.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/post_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/publish_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/publish_post.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xjtu_bbs/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/xjtu_bbs/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/publish_topic_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/publish_topic_post.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/topic.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/topic_post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic_post_detail.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,16 +46,16 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/js" />
     <property name="settings.editor.selected.configurable" value="configurable.group.language" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\PycharmProjects\xjtu_bbs\static\js" />
       <recent name="C:\Users\DELL\PycharmProjects\xjtu_bbs\static\images" />
       <recent name="C:\Users\DELL\PycharmProjects\xjtu_bbs\templates" />
       <recent name="C:\Users\DELL\PycharmProjects\xjtu_bbs\static" />
       <recent name="C:\Users\DELL\PycharmProjects\xjtu_bbs\static\css" />
-      <recent name="C:\Users\DELL\PycharmProjects\xjtu_bbs\static\js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\DELL\PycharmProjects\xjtu_bbs\apps" />
