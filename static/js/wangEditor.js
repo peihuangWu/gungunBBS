@@ -1172,9 +1172,10 @@ Panel.prototype = {
         var opt = this.opt;
 
         // panel 的容器
-        var $container = $('<div class="w-e-panel-container"></div>');
+        var $container = $('<div class="w-e-panel-container" style="width:430px; margin-left:-150px;"></div>');
         var width = opt.width || 300; // 默认 300px
-        $container.css('width', width + 'px').css('margin-left', (0 - width) / 2 + 'px');
+//        $container.css('width', width + 'px').css('margin-left', (0 - width) / 2 + 'px');
+//        $container.css('width', '420px').css('margin-left', (0 - width) / 2 + 'px');
 
         // 添加关闭按钮
         var $closeBtn = $('<i class="w-e-icon-close w-e-panel-close"></i>');
@@ -2160,7 +2161,7 @@ Emoticon.prototype = {
                     var alt = item.alt;
                     if (src) {
                         // 加一个 data-w-e 属性，点击图片的时候不再提示编辑图片
-                        faceHtml += '<span class="w-e-item"><img src="' + src + '" alt="' + alt + '" data-w-e="1"/></span>';
+                        faceHtml += '<span class="w-e-item" style="margin-top:10px"><img src="' + src + '" alt="' + alt + '" data-w-e="1"/></span>';
                     }
                 });
             }

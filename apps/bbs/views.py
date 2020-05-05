@@ -162,8 +162,10 @@ class PublishView(View):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(reverse("login"))
 
+        user_faces = UserFace.objects.filter(user=request.user)
         return render(request, "publish_post.html", {
             "user": request.user,
+            "user_faces": user_faces,
         })
 
     def post(self, request):
@@ -240,6 +242,8 @@ class PostView(View):
         else:
             hasCollect = False
 
+        user_faces = UserFace.objects.filter(user=request.user)
+
         return render(request, "post_detail.html", {
             "post_info": post_info,
             "replys": replys,
@@ -247,6 +251,7 @@ class PostView(View):
             "page": page,
             "user": request.user,
             "hasCollect": hasCollect,
+            "user_faces": user_faces,
         })
 
 
@@ -483,9 +488,12 @@ class PublishTopicPostView(View):
         except Exception:
             topic_id = 1
 
+        user_faces = UserFace.objects.filter(user=request.user)
+
         return render(request, "publish_topic_post.html", {
             "user": request.user,
             "topic_id": topic_id,
+            "user_faces": user_faces,
         })
 
     def post(self, request):
@@ -544,12 +552,15 @@ class TopicPostView(View):
         for i, reply in enumerate(replys, 2):
             reply.num = (page - 1) * 10 + i
 
+        user_faces = UserFace.objects.filter(user=request.user)
+
         return render(request, "topic_post_detail.html", {
             "post_info": post_info,
             "replys": replys,
             "page_num": page_num,
             "page": page,
             "user": request.user,
+            "user_faces": user_faces,
         })
 
 

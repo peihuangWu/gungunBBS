@@ -570,3 +570,107 @@ class CollectView(View):
         user_collect.post = post_info
         user_collect.save()
         return JsonResponse({'status': 1, 'msg': 'success'})
+
+
+class PersonalFaceView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+
+        user_faces = UserFace.objects.filter(user=request.user).order_by("-add_time")
+
+        return render(request, "personal_face.html", {
+            "user": request.user,
+            "user_faces": user_faces,
+        })
+
+    def post(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+
+        data = json.loads(request.body)
+        user_face = UserFace()
+        user_face.user = request.user
+        user_face.face = data["src"]
+        user_face.save()
+        return JsonResponse({'status': 1, 'msg': 'success'})
+
+
+class ContributeFaceView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+
+        faces = Face.objects.filter(contributor=request.user).order_by("-add_time")
+
+        return render(request, "contribute_face.html", {
+            "user": request.user,
+            "faces": faces,
+        })
+
+    def post(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+
+        data = json.loads(request.body)
+        face = Face()
+        face.contributor = request.user
+        face.src = data["src"]
+        face.tag = data["tag"]
+        face.save()
+        return JsonResponse({'status': 1, 'msg': 'success'})
+
+
+class FaceListView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+
+        search_text = request.GET.get("searchText", "")
+        faces = Face.objects.filter(tag__icontains=search_text).order_by("-add_time")
+        face_count = faces.count()
+        try:
+            page = request.GET.get("page", 1)
+            page = int(page)
+        except PageNotAnInteger:
+            page = 1
+        if page < 0:
+            page = 1
+        p = Paginator(faces, 10, request=request)
+        faces = p.page(page).object_list
+        page_num = int(face_count / 10)
+        if face_count % 10 != 0:
+            page_num += 1
+
+        return render(request, "face_list.html", {
+            "user": request.user,
+            "faces": faces,
+            "page_num": page_num,
+            "page": page,
+            "num": face_count,
+        })
+
+
+class AddFaceView(View):
+    def get(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+        try:
+            id = int(request.GET.get("id", 1))
+        except:
+            id = 1
+
+        try:
+            face = Face.objects.get(id=id)
+        except:
+            return render(request, "404.html")
+
+        face.add_num += 1
+        face.save()
+        user_face = UserFace()
+        user_face.user = request.user
+        user_face.face = face.src
+        user_face.save()
+        return JsonResponse({'status': 1, 'msg': 'success'})
+
+

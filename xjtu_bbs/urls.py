@@ -40,6 +40,7 @@ urlpatterns = [
     url(r"^personal_fans/$", PersonalFansView.as_view(), name="personal_fans"),
     url(r"^personal_privacy/$", PersonalPrivacyView.as_view(), name="personal_privacy"),
     url(r"^personal_password/$", PersonalPasswordView.as_view(), name="personal_password"),
+    url(r"^personal_face/$", PersonalFaceView.as_view(), name="personal_face"),
     url(r"^personal_page_by_other/(?P<id>\d+)/$", PersonalPageByOtherView.as_view(), name="personal_page_by_other"),
     url(r"^follow/$", FollowView.as_view(), name="follow"),
     url(r"^personal_message/$", PersonalMessageView.as_view(), name="personal_message"),
@@ -50,7 +51,9 @@ urlpatterns = [
     url(r"^publish_topic_post/$", PublishTopicPostView.as_view(), name="publish_topic_post"),
     url(r"^topic_post/(?P<id>\d+)/$", TopicPostView.as_view(), name="topic_post"),
     url(r"^topic_reply/(?P<post_id>\d+)/$", TopicReplyView.as_view(), name="topic_reply"),
-
+    url(r"^contribute_face/$", ContributeFaceView.as_view(), name="contribute_face"),
+    url(r"^face_list/$", FaceListView.as_view(), name="face_list"),
+    url(r"^add_face/$", AddFaceView.as_view(), name="add_face"),
 ]
 
 # handler404 = 'bbs.views.page_not_found'

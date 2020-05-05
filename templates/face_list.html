@@ -11,38 +11,44 @@
     <script src="{% static 'bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
     <link rel="stylesheet" href="{% static 'bootstrap-4.4.1-dist/css/bootstrap.css' %}">
     <style>
-        .classification img {
+        .option img {
             width: 25px;
             height: 25px;
         }
-        .classification a {
+        .option a {
             color: black;
             font-weight: bold;
         }
 
-        .classification a:hover {
+        .option a:hover {
             text-decoration: none;
-        }
-
-        .operation img {
-            width: 50px;
-            height: 50px;
-
         }
 
         .post a {
             color:inherit;
         }
 
-        .nav a{
-            color: black;
+        .face {
+<!--            height: 220px;-->
+<!--            line-height: 220px;-->
         }
 
-        .page-item a {
-            color: black;
+        .face a{
+            text-decoration: none;
+            /*color: black;*/
         }
 
-         .search{
+        .face a:hover {
+            text-decoration: none;
+        }
+
+        .contributor img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .search{
             width: 100%;
             display: flex;
             margin-top: 30px;
@@ -166,71 +172,27 @@
     <main class="mt-4">
         <div class="container">
             <div class="row">
-                <div class="classification col-md-2">
-                    <h2 class="font-weight-bold mt-3">{{ topic.name }}</h2>
-                    <div class="mt-5">
-                        <img src="{% static 'images/follow_num.png' %}" alt="">
-                        <span class="font-weight-bold">关注人数</span>
-                        <p class="font-weight-bold ml-4 mt-1">{{ topic.follow_num }}</p>
-                    </div>
-                    <div class="mt-5 operation">
-                        <div class="publish mt-5">
-                            <a href="/publish_topic_post?topic_id={{ topic.id }}">
-                                <img src="{% static 'images/publish_post.png' %}" alt="">
-                                <p class="ml-2">发帖</p>
-                            </a>
-                        </div>
-                        <div class="refresh mt-5">
-                            <a href="/topic?id={{ topic.id }}">
-                                <img src="{% static 'images/refresh.png' %}" alt="">
-                                <p class="ml-2">刷新</p>
-                            </a>
-                        </div>
-                    </div>
-                    {% if hasFollow %}
-                        <button class="followBtn btn-block btn-primary mt-5">已关注</button>
-                    {% else %}
-                        <button class="followBtn btn-block btn-primary mt-5">关注此话题</button>
-                    {% endif %}
-                </div>
                 <div class="content col-md-10">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item col-md-2 text-center">
-                            {% if nav_tab == 1 %}
-                                <a class="nav-link active" target="_self" href="/topic?id={{ topic.id }}&tab=1">看帖</a>
-                            {% else %}
-                                <a class="nav-link" target="_self" href="/topic?id={{ topic.id }}&tab=1">看帖</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item col-md-2 text-center">
-                            {% if nav_tab == 3 %}
-                                <a class="nav-link active" target="_self" href="/topic?id={{ topic.id }}&tab=3">热门</a>
-                            {% else %}
-                                <a class="nav-link" target="_self" href="/topic?id={{ topic.id }}&tab=3">热门</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item col-md-2 text-center">
-                            {% if nav_tab == 2 %}
-                                <a class="nav-link active" target="_self" href="/topic?id={{ topic.id }}&tab=2">精品</a>
-                            {% else %}
-                                <a class="nav-link" target="_self" href="/topic?id={{ topic.id }}&tab=2">精品</a>
-                            {% endif %}
-                        </li>
-                    </ul>
-                    <div class="list">
-                        {% for post in posts %}
-                            <div class="post border-top">
-                                <a href="/topic_post/{{ post.id }}/">
-                                    <p class="title mt-1">{{ post.title }}</p>
-                                </a>
-                                <div class="info1">
-                                    <a href="/personal_page_by_other/{{ post.author.id }}/" class="info-user">{{ post.author.username }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="info-time">{{ post.publish_time|date:'Y-m-d H:i' }}</span>
+                    <div class="info">
+                        <h3 class="font-weight-bold ml-5">表情包搜索结果</h3>
+                        <span class="num d-block ml-5 mt-3 mb-2">共 {{ num }} 张</span>
+                    </div>
+                    <div class="list ml-5">
+                        {% for face in faces %}
+                            <div class="face border-bottom mt-5">
+                                <div class="face-info1 row">
+                                    <img src="{{ face.src }}" alt="" class="mr-5">
+                                    <span class="mr-5 mt-5">被添加次数: {{ face.add_num }}</span>
                                 </div>
-                                <div class="info2">
-                                    浏览:&nbsp;<span class="info-clickNum">{{ post.click_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    回复:&nbsp;<span class="info-replyNum">{{ post.reply_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <!--                                点赞:&nbsp;<span class="info-favNum">34</span>-->
+                                <div class="face-info2 mt-4 mb-2 row">
+                                    <span class="mr-5 contributor mt-1">
+                                        贡献者:
+                                        <a href="/personal_page_by_other/{{ face.contributor.id }}/">
+                                            <img src="{{ face.contributor.portrait }}" alt="" class="ml-2">
+                                            {{ face.contributor.username }}
+                                        </a>
+                                    </span>
+                                    <button class="btn btn-primary ml-3" id="add" data="{{ face.id }}">加入我的表情包</button>
                                 </div>
                             </div>
                         {% endfor %}
@@ -240,23 +202,23 @@
         </div>
     </main>
     <footer class="mt-4">
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" class="mt-4">
             <ul class="pagination justify-content-center">
                 {% if page > 1 %}
                     <li class="page-item">
-                        <a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:-1 }}" tabindex="-1">上一页</a>
+                        <a class="page-link" target="_self" href="/face_list?searchText={{ searchText }}&page={{ page|add:-1 }}" tabindex="-1">上一页</a>
                     </li>
                 {% endif %}
-                <li class="page-item"><a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page }}">{{ page }}</a></li>
+                <li class="page-item"><a class="page-link" target="_self" href="/face_list?searchText={{ searchText }}&page={{ page }}">{{ page }}</a></li>
                 {% if page < page_num %}
-                    <li class="page-item"><a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+                    <li class="page-item"><a class="page-link" target="_self" href="/face_list?searchText={{ searchText }}&page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
                 {% endif %}
                 {% if page|add:1 < page_num %}
-                    <li class="page-item"><a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+                    <li class="page-item"><a class="page-link" target="_self" href="/face_list?searchText={{ searchText }}&page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
                 {% endif %}
                 {% if page < page_num %}
                     <li class="page-item">
-                        <a class="page-link" target="_self" href="/topic?id={{ topic.id }}&tab={{ nav_tab }}&page={{ page|add:1 }}">下一页</a>
+                        <a class="page-link" target="_self" href="/face_list?searchText={{ searchText }}&page={{ page|add:1 }}">下一页</a>
                     </li>
                 {% endif %}
             </ul>
@@ -292,25 +254,13 @@
             window.location.href = "/search?searchText=" + searchText.value;
         });
 
-        let followBtn = document.getElementsByClassName("followBtn")[0];
-        followBtn.addEventListener("click", (e)=>{
-            let data = {};
-            if (followBtn.innerText == "关注此话题")
-                data.type = 1;
-            else
-                data.type = 2;
-            data.followerId = {{ topic.id }};
+        $("#add").click((e)=>{
             $.ajax({
-                url: "/follow_topic/",
-                data: JSON.stringify(data),
-                type: "POST",
-                dataType: 'json',
+                url: "/add_face?id=" + e.currentTarget.getAttribute("data"),
+                type: "GET",
                 success: function(re) {
                     if(re.status == '1') {
-                        if (followBtn.innerText == "关注此话题")
-                            followBtn.innerText = "已关注";
-                        else
-                            followBtn.innerText = "关注此话题";
+                        e.currentTarget.innerText = "已添加进我的表情包";
                     }
                 }
             });

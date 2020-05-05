@@ -142,6 +142,10 @@
                                 <img src="{% static 'images/change_password.png' %}" alt="">
                                 修改密码
                             </a>
+                            <a class="dropdown-item" href="/personal_face/">
+                                <img src="{% static 'images/face.png' %}" alt="">
+                                表情包管理
+                            </a>
                         </div>
                     </div>
                     <div class="dropdown message mt-4 col-md-2">
@@ -322,6 +326,10 @@
             window.location.href = "/search?searchText=" + searchText.value;
         });
 
+        faces = []
+        {% for user_face in user_faces %}
+            faces.push({"alt": "[用户表情包]", "src": "{{ user_face.face }}"})
+        {% endfor %}
 
         var E = window.wangEditor;
         var editor = new E('#edit-content');
@@ -342,7 +350,15 @@
                 type: 'emoji',
                 // content -> 数组
                 content: ['😀', '😃', '😄', '😁', '😆']
-            }
+            },
+            {
+                // tab 的标题
+                title: '我的表情包',
+                // type -> 'emoji' / 'image'
+                type: 'image',
+                // content -> 数组
+                content: faces,
+            },
         ]
         editor.create();
 
